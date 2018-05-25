@@ -50,6 +50,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton6X6.Tag = "6";
 			this.m_RadioButton6X6.Text = "6 x 6";
 			this.m_RadioButton6X6.UseVisualStyleBackColor = false;
+			this.m_RadioButton6X6.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
 			// m_RadioButton8X8
 			// 
@@ -62,6 +63,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton8X8.Tag = "8";
 			this.m_RadioButton8X8.Text = "8 x 8";
 			this.m_RadioButton8X8.UseVisualStyleBackColor = true;
+			this.m_RadioButton8X8.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
 			// m_RadioButton10X10
 			// 
@@ -74,6 +76,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton10X10.Tag = "10";
 			this.m_RadioButton10X10.Text = "10 x 10";
 			this.m_RadioButton10X10.UseVisualStyleBackColor = true;
+			this.m_RadioButton10X10.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
 			// m_BoardSizeLabel
 			// 
@@ -119,6 +122,7 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerTwoCheckBox.TabIndex = 7;
 			this.m_PlayerTwoCheckBox.Text = "Player 2:";
 			this.m_PlayerTwoCheckBox.UseVisualStyleBackColor = true;
+			this.m_PlayerTwoCheckBox.CheckedChanged += new System.EventHandler(this.onCheckBoxClicked);
 			// 
 			// m_PlayerTwoNameTextBox
 			// 
@@ -138,9 +142,11 @@ namespace B18Ex05.Checkers.View
 			this.m_DoneButton.TabIndex = 9;
 			this.m_DoneButton.Text = "Done";
 			this.m_DoneButton.UseVisualStyleBackColor = true;
+			this.m_DoneButton.Click += new System.EventHandler(this.doneButton_Click);
 			// 
 			// Settings
 			// 
+			this.AcceptButton = this.m_DoneButton;
 			this.ClientSize = new System.Drawing.Size(239, 244);
 			this.Controls.Add(this.m_DoneButton);
 			this.Controls.Add(this.m_PlayerTwoNameTextBox);
