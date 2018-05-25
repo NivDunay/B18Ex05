@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("B18Ex05.Checkers.View")]
+[assembly: AssemblyTitle("B18Ex05.Checkers.Controller")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("B18Ex05.Checkers.View")]
+[assembly: AssemblyProduct("B18Ex05.Checkers.Controller")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("575683ae-de86-4169-b3d6-960b8c0e4a54")]
+[assembly: Guid("c7b2de5e-dab3-4384-949e-bd871f4c2143")]
 
 // Version information for an assembly consists of the following four values:
 //

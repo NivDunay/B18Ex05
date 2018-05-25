@@ -1,187 +1,183 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
 	public class Settings : Form
 	{
-		private int m_PlayerSelectedBoardSize;
-		private RadioButton RadioButton8x8;
-		private RadioButton RadioButton10x10;
-		private Label BoardSizeLabel;
-		private Label PlayersLabel;
-		private Label PlayerOneLabel;
-		private TextBox PlayerOneNameTextBox;
-		private CheckBox PlayerTwoCheckBox;
-		private TextBox PlayerTwoNameTextBox;
-		private Button DoneButton;
-		private RadioButton RadioButton6x6;
+		private int         m_PlayerSelectedBoardSize;
+		private RadioButton m_RadioButton8X8;
+		private RadioButton m_RadioButton10X10;
+		private Label       m_BoardSizeLabel;
+		private Label       m_PlayersLabel;
+		private Label       m_PlayerOneLabel;
+		private TextBox     m_PlayerOneNameTextBox;
+		private CheckBox    m_PlayerTwoCheckBox;
+		private TextBox     m_PlayerTwoNameTextBox;
+		private Button      m_DoneButton;
+		private RadioButton m_RadioButton6X6;
 
 		public Settings()
 		{
-			InitializeComponent();
+			initializeComponent();
 			ShowDialog();
 		}
 
-		private void InitializeComponent()
+		private void initializeComponent()
 		{
-			this.RadioButton6x6 = new System.Windows.Forms.RadioButton();
-			this.RadioButton8x8 = new System.Windows.Forms.RadioButton();
-			this.RadioButton10x10 = new System.Windows.Forms.RadioButton();
-			this.BoardSizeLabel = new System.Windows.Forms.Label();
-			this.PlayersLabel = new System.Windows.Forms.Label();
-			this.PlayerOneLabel = new System.Windows.Forms.Label();
-			this.PlayerOneNameTextBox = new System.Windows.Forms.TextBox();
-			this.PlayerTwoCheckBox = new System.Windows.Forms.CheckBox();
-			this.PlayerTwoNameTextBox = new System.Windows.Forms.TextBox();
-			this.DoneButton = new System.Windows.Forms.Button();
-			this.SuspendLayout();
+			m_RadioButton6X6       = new RadioButton();
+			m_RadioButton8X8       = new RadioButton();
+			m_RadioButton10X10     = new RadioButton();
+			m_BoardSizeLabel       = new Label();
+			m_PlayersLabel         = new Label();
+			m_PlayerOneLabel       = new Label();
+			m_PlayerOneNameTextBox = new TextBox();
+			m_PlayerTwoCheckBox    = new CheckBox();
+			m_PlayerTwoNameTextBox = new TextBox();
+			m_DoneButton           = new Button();
+			SuspendLayout();
 			// 
 			// RadioButton6x6
 			// 
-			this.RadioButton6x6.AutoSize = true;
-			this.RadioButton6x6.BackColor = System.Drawing.SystemColors.Control;
-			this.RadioButton6x6.Location = new System.Drawing.Point(24, 49);
-			this.RadioButton6x6.Name = "RadioButton6x6";
-			this.RadioButton6x6.Size = new System.Drawing.Size(48, 17);
-			this.RadioButton6x6.TabIndex = 0;
-			this.RadioButton6x6.TabStop = true;
-			this.RadioButton6x6.Tag = "6";
-			this.RadioButton6x6.Text = "6 x 6";
-			this.RadioButton6x6.UseVisualStyleBackColor = false;
-			this.RadioButton6x6.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton6X6.AutoSize                =  true;
+			m_RadioButton6X6.BackColor               =  SystemColors.Control;
+			m_RadioButton6X6.Location                =  new Point(24, 49);
+			m_RadioButton6X6.Name                    =  "m_RadioButton6X6";
+			m_RadioButton6X6.Size                    =  new Size(48, 17);
+			m_RadioButton6X6.TabIndex                =  0;
+			m_RadioButton6X6.TabStop                 =  true;
+			m_RadioButton6X6.Tag                     =  "6";
+			m_RadioButton6X6.Text                    =  "6 x 6";
+			m_RadioButton6X6.UseVisualStyleBackColor =  false;
+			m_RadioButton6X6.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// RadioButton8x8
 			// 
-			this.RadioButton8x8.AutoSize = true;
-			this.RadioButton8x8.Location = new System.Drawing.Point(89, 49);
-			this.RadioButton8x8.Name = "RadioButton8x8";
-			this.RadioButton8x8.Size = new System.Drawing.Size(48, 17);
-			this.RadioButton8x8.TabIndex = 1;
-			this.RadioButton8x8.TabStop = true;
-			this.RadioButton8x8.Tag = "8";
-			this.RadioButton8x8.Text = "8 x 8";
-			this.RadioButton8x8.UseVisualStyleBackColor = true;
-			this.RadioButton8x8.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton8X8.AutoSize                =  true;
+			m_RadioButton8X8.Location                =  new Point(89, 49);
+			m_RadioButton8X8.Name                    =  "m_RadioButton8X8";
+			m_RadioButton8X8.Size                    =  new Size(48, 17);
+			m_RadioButton8X8.TabIndex                =  1;
+			m_RadioButton8X8.TabStop                 =  true;
+			m_RadioButton8X8.Tag                     =  "8";
+			m_RadioButton8X8.Text                    =  "8 x 8";
+			m_RadioButton8X8.UseVisualStyleBackColor =  true;
+			m_RadioButton8X8.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// RadioButton10x10
 			// 
-			this.RadioButton10x10.AutoSize = true;
-			this.RadioButton10x10.Location = new System.Drawing.Point(155, 49);
-			this.RadioButton10x10.Name = "RadioButton10x10";
-			this.RadioButton10x10.Size = new System.Drawing.Size(60, 17);
-			this.RadioButton10x10.TabIndex = 2;
-			this.RadioButton10x10.TabStop = true;
-			this.RadioButton10x10.Tag = "10";
-			this.RadioButton10x10.Text = "10 x 10";
-			this.RadioButton10x10.UseVisualStyleBackColor = true;
-			this.RadioButton10x10.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton10X10.AutoSize                =  true;
+			m_RadioButton10X10.Location                =  new Point(155, 49);
+			m_RadioButton10X10.Name                    =  "m_RadioButton10X10";
+			m_RadioButton10X10.Size                    =  new Size(60, 17);
+			m_RadioButton10X10.TabIndex                =  2;
+			m_RadioButton10X10.TabStop                 =  true;
+			m_RadioButton10X10.Tag                     =  "10";
+			m_RadioButton10X10.Text                    =  "10 x 10";
+			m_RadioButton10X10.UseVisualStyleBackColor =  true;
+			m_RadioButton10X10.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// BoardSizeLabel
 			// 
-			this.BoardSizeLabel.AutoSize = true;
-			this.BoardSizeLabel.Location = new System.Drawing.Point(21, 21);
-			this.BoardSizeLabel.Name = "BoardSizeLabel";
-			this.BoardSizeLabel.Size = new System.Drawing.Size(61, 13);
-			this.BoardSizeLabel.TabIndex = 3;
-			this.BoardSizeLabel.Text = "Board Size:";
+			m_BoardSizeLabel.AutoSize = true;
+			m_BoardSizeLabel.Location = new Point(21, 21);
+			m_BoardSizeLabel.Name     = "m_BoardSizeLabel";
+			m_BoardSizeLabel.Size     = new Size(61, 13);
+			m_BoardSizeLabel.TabIndex = 3;
+			m_BoardSizeLabel.Text     = "Board Size:";
 			// 
 			// PlayersLabel
 			// 
-			this.PlayersLabel.AutoSize = true;
-			this.PlayersLabel.Location = new System.Drawing.Point(21, 89);
-			this.PlayersLabel.Name = "PlayersLabel";
-			this.PlayersLabel.Size = new System.Drawing.Size(44, 13);
-			this.PlayersLabel.TabIndex = 4;
-			this.PlayersLabel.Text = "Players:";
+			m_PlayersLabel.AutoSize = true;
+			m_PlayersLabel.Location = new Point(21, 89);
+			m_PlayersLabel.Name     = "m_PlayersLabel";
+			m_PlayersLabel.Size     = new Size(44, 13);
+			m_PlayersLabel.TabIndex = 4;
+			m_PlayersLabel.Text     = "Players:";
 			// 
 			// PlayerOneLabel
 			// 
-			this.PlayerOneLabel.AutoSize = true;
-			this.PlayerOneLabel.Location = new System.Drawing.Point(30, 118);
-			this.PlayerOneLabel.Name = "PlayerOneLabel";
-			this.PlayerOneLabel.Size = new System.Drawing.Size(48, 13);
-			this.PlayerOneLabel.TabIndex = 5;
-			this.PlayerOneLabel.Text = "Player 1:";
+			m_PlayerOneLabel.AutoSize = true;
+			m_PlayerOneLabel.Location = new Point(30, 118);
+			m_PlayerOneLabel.Name     = "m_PlayerOneLabel";
+			m_PlayerOneLabel.Size     = new Size(48, 13);
+			m_PlayerOneLabel.TabIndex = 5;
+			m_PlayerOneLabel.Text     = "Player 1:";
 			// 
 			// PlayerOneNameTextBox
 			// 
-			this.PlayerOneNameTextBox.Location = new System.Drawing.Point(112, 118);
-			this.PlayerOneNameTextBox.MaxLength = 20;
-			this.PlayerOneNameTextBox.Name = "PlayerOneNameTextBox";
-			this.PlayerOneNameTextBox.Size = new System.Drawing.Size(103, 20);
-			this.PlayerOneNameTextBox.TabIndex = 6;
+			m_PlayerOneNameTextBox.Location  = new Point(112, 118);
+			m_PlayerOneNameTextBox.MaxLength = 10;
+			m_PlayerOneNameTextBox.Name      = "m_PlayerOneNameTextBox";
+			m_PlayerOneNameTextBox.Size      = new Size(103, 20);
+			m_PlayerOneNameTextBox.TabIndex  = 6;
 			// 
 			// PlayerTwoCheckBox
 			// 
-			this.PlayerTwoCheckBox.AutoSize = true;
-			this.PlayerTwoCheckBox.Location = new System.Drawing.Point(33, 155);
-			this.PlayerTwoCheckBox.Name = "PlayerTwoCheckBox";
-			this.PlayerTwoCheckBox.Size = new System.Drawing.Size(67, 17);
-			this.PlayerTwoCheckBox.TabIndex = 7;
-			this.PlayerTwoCheckBox.Text = "Player 2:";
-			this.PlayerTwoCheckBox.UseVisualStyleBackColor = true;
-			this.PlayerTwoCheckBox.CheckedChanged += new System.EventHandler(this.onCheckBoxClicked);
+			m_PlayerTwoCheckBox.AutoSize                =  true;
+			m_PlayerTwoCheckBox.Location                =  new Point(33, 155);
+			m_PlayerTwoCheckBox.Name                    =  "m_PlayerTwoCheckBox";
+			m_PlayerTwoCheckBox.Size                    =  new Size(67, 17);
+			m_PlayerTwoCheckBox.TabIndex                =  7;
+			m_PlayerTwoCheckBox.Text                    =  "Player 2:";
+			m_PlayerTwoCheckBox.UseVisualStyleBackColor =  true;
+			m_PlayerTwoCheckBox.CheckedChanged          += onCheckBoxClicked;
 			// 
 			// PlayerTwoNameTextBox
 			// 
-			this.PlayerTwoNameTextBox.Enabled = false;
-			this.PlayerTwoNameTextBox.Location = new System.Drawing.Point(112, 155);
-			this.PlayerTwoNameTextBox.MaxLength = 20;
-			this.PlayerTwoNameTextBox.Name = "PlayerTwoNameTextBox";
-			this.PlayerTwoNameTextBox.Size = new System.Drawing.Size(103, 20);
-			this.PlayerTwoNameTextBox.TabIndex = 8;
-			this.PlayerTwoNameTextBox.Text = "[Computer]";
+			m_PlayerTwoNameTextBox.Enabled   = false;
+			m_PlayerTwoNameTextBox.Location  = new Point(112, 155);
+			m_PlayerTwoNameTextBox.MaxLength = 10;
+			m_PlayerTwoNameTextBox.Name      = "m_PlayerTwoNameTextBox";
+			m_PlayerTwoNameTextBox.Size      = new Size(103, 20);
+			m_PlayerTwoNameTextBox.TabIndex  = 8;
+			m_PlayerTwoNameTextBox.Text      = "[Computer]";
 			// 
 			// DoneButton
 			// 
-			this.DoneButton.Location = new System.Drawing.Point(140, 200);
-			this.DoneButton.Name = "DoneButton";
-			this.DoneButton.Size = new System.Drawing.Size(75, 23);
-			this.DoneButton.TabIndex = 9;
-			this.DoneButton.Text = "Done";
-			this.DoneButton.UseVisualStyleBackColor = true;
-			this.DoneButton.Click += new System.EventHandler(this.DoneButton_Click);
+			m_DoneButton.Location                =  new Point(140, 200);
+			m_DoneButton.Name                    =  "m_DoneButton";
+			m_DoneButton.Size                    =  new Size(75, 23);
+			m_DoneButton.TabIndex                =  9;
+			m_DoneButton.Text                    =  "Done";
+			m_DoneButton.UseVisualStyleBackColor =  true;
+			m_DoneButton.Click                   += doneButton_Click;
 			// 
 			// Settings
 			// 
-			this.ClientSize = new System.Drawing.Size(239, 244);
-			this.Controls.Add(this.DoneButton);
-			this.Controls.Add(this.PlayerTwoNameTextBox);
-			this.Controls.Add(this.PlayerTwoCheckBox);
-			this.Controls.Add(this.PlayerOneNameTextBox);
-			this.Controls.Add(this.PlayerOneLabel);
-			this.Controls.Add(this.PlayersLabel);
-			this.Controls.Add(this.BoardSizeLabel);
-			this.Controls.Add(this.RadioButton10x10);
-			this.Controls.Add(this.RadioButton8x8);
-			this.Controls.Add(this.RadioButton6x6);
-			this.Name = "Settings";
-			this.Text = "Game Settings";
-			this.ResumeLayout(false);
-			this.PerformLayout();
-
+			ClientSize = new Size(239, 244);
+			Controls.Add(m_DoneButton);
+			Controls.Add(m_PlayerTwoNameTextBox);
+			Controls.Add(m_PlayerTwoCheckBox);
+			Controls.Add(m_PlayerOneNameTextBox);
+			Controls.Add(m_PlayerOneLabel);
+			Controls.Add(m_PlayersLabel);
+			Controls.Add(m_BoardSizeLabel);
+			Controls.Add(m_RadioButton10X10);
+			Controls.Add(m_RadioButton8X8);
+			Controls.Add(m_RadioButton6X6);
+			Name = "Settings";
+			Text = "Game Settings";
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		private void removeText()
 		{
-			PlayerTwoNameTextBox.Text = "";
-			PlayerTwoNameTextBox.Enabled = true;
+			m_PlayerTwoNameTextBox.Text    = "";
+			m_PlayerTwoNameTextBox.Enabled = true;
 		}
 
 		private void addText()
 		{
-			PlayerTwoNameTextBox.Text = "[Computer]";
-			PlayerTwoNameTextBox.Enabled = false;
+			m_PlayerTwoNameTextBox.Text    = "[Computer]";
+			m_PlayerTwoNameTextBox.Enabled = false;
 		}
 
 		private void onCheckBoxClicked(object i_Sender, EventArgs i_EventArg)
 		{
-			CheckBox checkBox = i_Sender as CheckBox;
-			if (checkBox.Checked == true)
+			if (i_Sender is CheckBox checkBox && checkBox.Checked)
 			{
 				removeText();
 			}
@@ -191,32 +187,36 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		private void DoneButton_Click(object i_Sender, EventArgs i_EventArg)
+		private void doneButton_Click(object i_Sender, EventArgs i_EventArg)
 		{
-			this.Hide();
-			GameBoard checkersGame = new GameBoard(m_PlayerSelectedBoardSize);
-			checkersGame.PlayerOneName = PlayerOneNameTextBox.Text;
-			checkersGame.PlayerTwoName = PlayerTwoNameTextBox.Text;
+			Hide();
+			GameBoard checkersGame = new GameBoard(m_PlayerSelectedBoardSize)
+			{
+				PlayerOneName = m_PlayerOneNameTextBox.Text + ":",
+				PlayerTwoName = m_PlayerTwoNameTextBox.Text + ":"
+			};
 			checkersGame.ShowDialog();
-			this.Close();
+			Close();
 		}
 
 		private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArg)
 		{
-			RadioButton radioButton = i_Sender as RadioButton;
-			if (radioButton.Checked)
+			if (i_Sender is RadioButton radioButton && radioButton.Checked)
 			{
 				m_PlayerSelectedBoardSize = int.Parse(radioButton.Tag.ToString());
 			}
 		}
 
-		//private void textBox_TextChanged(object i_Sender, EventArgs i_EventArg)
-		//{
-		//	TextBox textBox = i_Sender as TextBox;
-		//	if(textBox.Modified)
-		//	{
-		//		textBox.Text = textBox.
-		//	}
-		//}
+		private void InitializeComponent()
+		{
+			this.SuspendLayout();
+			// 
+			// Settings
+			// 
+			this.ClientSize = new System.Drawing.Size(284, 261);
+			this.Name = "Settings";
+			this.ResumeLayout(false);
+
+		}
 	}
 }

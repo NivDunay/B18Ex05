@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace B18Ex05.Checkers.View
+﻿namespace B18Ex05.Checkers.View
 {
-	class Program
+	public static class Program
 	{
-		static void Main(string[] args)
+		public static void Main()
 		{
-			new Settings();
+			Settings gameSettings = new Settings();
 		}
 	}
 }
