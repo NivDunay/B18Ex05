@@ -158,6 +158,7 @@ namespace B18Ex05.Checkers.View
 			this.Controls.Add(this.m_RadioButton10X10);
 			this.Controls.Add(this.m_RadioButton8X8);
 			this.Controls.Add(this.m_RadioButton6X6);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "Settings";
 			this.Text = "Settings";
 			this.ResumeLayout(false);

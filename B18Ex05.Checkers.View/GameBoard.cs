@@ -16,6 +16,7 @@ namespace B18Ex05.Checkers.View
 			r_GameBoardSize = i_GameBoardSize;
 			AutoSize        = true;
 			AutoSizeMode    = AutoSizeMode.GrowAndShrink;
+			FormBorderStyle = FormBorderStyle.FixedSingle;
 			createButtonMatrix();
 			initializeComponents();
 		}
