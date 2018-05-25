@@ -17,6 +17,7 @@ namespace B18Ex05.Checkers.View
 			AutoSize        = true;
 			AutoSizeMode    = AutoSizeMode.GrowAndShrink;
 			FormBorderStyle = FormBorderStyle.FixedSingle;
+			Text = "Checkers";
 			createButtonMatrix();
 			initializeComponents();
 		}
