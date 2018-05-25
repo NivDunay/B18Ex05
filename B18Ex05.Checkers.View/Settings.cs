@@ -20,11 +20,11 @@ namespace B18Ex05.Checkers.View
 
 		public Settings()
 		{
-			initializeComponent();
+			InitializeComponent();
 			ShowDialog();
 		}
 
-		private void initializeComponent()
+		private void InitializeComponent()
 		{
 			m_RadioButton6X6       = new RadioButton();
 			m_RadioButton8X8       = new RadioButton();
@@ -205,18 +205,6 @@ namespace B18Ex05.Checkers.View
 			{
 				m_PlayerSelectedBoardSize = int.Parse(radioButton.Tag.ToString());
 			}
-		}
-
-		private void InitializeComponent()
-		{
-			this.SuspendLayout();
-			// 
-			// Settings
-			// 
-			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Name = "Settings";
-			this.ResumeLayout(false);
-
 		}
 	}
 }
