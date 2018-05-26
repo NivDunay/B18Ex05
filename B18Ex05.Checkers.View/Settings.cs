@@ -24,146 +24,168 @@ namespace B18Ex05.Checkers.View
 			ShowDialog();
 		}
 
+		public bool IsPlayerTwoActive
+		{
+			get { return m_PlayerTwoCheckBox.Checked; }
+		}
+
+		public int PlayerSelectedBoardSize
+		{
+			get { return m_PlayerSelectedBoardSize; }
+			set { m_PlayerSelectedBoardSize = value; }
+		}
+
+		public string PlayerOneName
+		{
+			get { return m_PlayerOneNameTextBox.Text; }
+			set { m_PlayerOneNameTextBox.Text = value; }
+		}
+
+		public string PlayerTwoName
+		{
+			get { return m_PlayerTwoNameTextBox.Text; }
+			set { m_PlayerTwoNameTextBox.Text = value; }
+		}
+
 		private void InitializeComponent()
 		{
-			this.m_RadioButton6X6 = new System.Windows.Forms.RadioButton();
-			this.m_RadioButton8X8 = new System.Windows.Forms.RadioButton();
-			this.m_RadioButton10X10 = new System.Windows.Forms.RadioButton();
-			this.m_BoardSizeLabel = new System.Windows.Forms.Label();
-			this.m_PlayersLabel = new System.Windows.Forms.Label();
-			this.m_PlayerOneLabel = new System.Windows.Forms.Label();
-			this.m_PlayerOneNameTextBox = new System.Windows.Forms.TextBox();
-			this.m_PlayerTwoCheckBox = new System.Windows.Forms.CheckBox();
-			this.m_PlayerTwoNameTextBox = new System.Windows.Forms.TextBox();
-			this.m_DoneButton = new System.Windows.Forms.Button();
-			this.SuspendLayout();
+			m_RadioButton6X6       = new RadioButton();
+			m_RadioButton8X8       = new RadioButton();
+			m_RadioButton10X10     = new RadioButton();
+			m_BoardSizeLabel       = new Label();
+			m_PlayersLabel         = new Label();
+			m_PlayerOneLabel       = new Label();
+			m_PlayerOneNameTextBox = new TextBox();
+			m_PlayerTwoCheckBox    = new CheckBox();
+			m_PlayerTwoNameTextBox = new TextBox();
+			m_DoneButton           = new Button();
+			SuspendLayout();
 			// 
 			// m_RadioButton6X6
 			// 
-			this.m_RadioButton6X6.AutoSize = true;
-			this.m_RadioButton6X6.BackColor = System.Drawing.SystemColors.Control;
-			this.m_RadioButton6X6.Location = new System.Drawing.Point(24, 49);
-			this.m_RadioButton6X6.Name = "m_RadioButton6X6";
-			this.m_RadioButton6X6.Size = new System.Drawing.Size(48, 17);
-			this.m_RadioButton6X6.TabIndex = 0;
-			this.m_RadioButton6X6.TabStop = true;
-			this.m_RadioButton6X6.Tag = "6";
-			this.m_RadioButton6X6.Text = "6 x 6";
-			this.m_RadioButton6X6.UseVisualStyleBackColor = false;
-			this.m_RadioButton6X6.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton6X6.AutoSize                =  true;
+			m_RadioButton6X6.BackColor               =  SystemColors.Control;
+			m_RadioButton6X6.Location                =  new Point(24, 49);
+			m_RadioButton6X6.Name                    =  "m_RadioButton6X6";
+			m_RadioButton6X6.Size                    =  new Size(48, 17);
+			m_RadioButton6X6.TabIndex                =  0;
+			m_RadioButton6X6.TabStop                 =  true;
+			m_RadioButton6X6.Tag                     =  "6";
+			m_RadioButton6X6.Text                    =  "6 x 6";
+			m_RadioButton6X6.UseVisualStyleBackColor =  false;
+			m_RadioButton6X6.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// m_RadioButton8X8
 			// 
-			this.m_RadioButton8X8.AutoSize = true;
-			this.m_RadioButton8X8.Location = new System.Drawing.Point(89, 49);
-			this.m_RadioButton8X8.Name = "m_RadioButton8X8";
-			this.m_RadioButton8X8.Size = new System.Drawing.Size(48, 17);
-			this.m_RadioButton8X8.TabIndex = 1;
-			this.m_RadioButton8X8.TabStop = true;
-			this.m_RadioButton8X8.Tag = "8";
-			this.m_RadioButton8X8.Text = "8 x 8";
-			this.m_RadioButton8X8.UseVisualStyleBackColor = true;
-			this.m_RadioButton8X8.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton8X8.AutoSize                =  true;
+			m_RadioButton8X8.Location                =  new Point(89, 49);
+			m_RadioButton8X8.Name                    =  "m_RadioButton8X8";
+			m_RadioButton8X8.Size                    =  new Size(48, 17);
+			m_RadioButton8X8.TabIndex                =  1;
+			m_RadioButton8X8.TabStop                 =  true;
+			m_RadioButton8X8.Tag                     =  "8";
+			m_RadioButton8X8.Text                    =  "8 x 8";
+			m_RadioButton8X8.UseVisualStyleBackColor =  true;
+			m_RadioButton8X8.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// m_RadioButton10X10
 			// 
-			this.m_RadioButton10X10.AutoSize = true;
-			this.m_RadioButton10X10.Location = new System.Drawing.Point(155, 49);
-			this.m_RadioButton10X10.Name = "m_RadioButton10X10";
-			this.m_RadioButton10X10.Size = new System.Drawing.Size(60, 17);
-			this.m_RadioButton10X10.TabIndex = 2;
-			this.m_RadioButton10X10.TabStop = true;
-			this.m_RadioButton10X10.Tag = "10";
-			this.m_RadioButton10X10.Text = "10 x 10";
-			this.m_RadioButton10X10.UseVisualStyleBackColor = true;
-			this.m_RadioButton10X10.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			m_RadioButton10X10.AutoSize                =  true;
+			m_RadioButton10X10.Location                =  new Point(155, 49);
+			m_RadioButton10X10.Name                    =  "m_RadioButton10X10";
+			m_RadioButton10X10.Size                    =  new Size(60, 17);
+			m_RadioButton10X10.TabIndex                =  2;
+			m_RadioButton10X10.TabStop                 =  true;
+			m_RadioButton10X10.Tag                     =  "10";
+			m_RadioButton10X10.Text                    =  "10 x 10";
+			m_RadioButton10X10.UseVisualStyleBackColor =  true;
+			m_RadioButton10X10.CheckedChanged          += radioButton_CheckedChanged;
 			// 
 			// m_BoardSizeLabel
 			// 
-			this.m_BoardSizeLabel.AutoSize = true;
-			this.m_BoardSizeLabel.Location = new System.Drawing.Point(21, 21);
-			this.m_BoardSizeLabel.Name = "m_BoardSizeLabel";
-			this.m_BoardSizeLabel.Size = new System.Drawing.Size(61, 13);
-			this.m_BoardSizeLabel.TabIndex = 3;
-			this.m_BoardSizeLabel.Text = "Board Size:";
+			m_BoardSizeLabel.AutoSize = true;
+			m_BoardSizeLabel.Location = new Point(21, 21);
+			m_BoardSizeLabel.Name     = "m_BoardSizeLabel";
+			m_BoardSizeLabel.Size     = new Size(61, 13);
+			m_BoardSizeLabel.TabIndex = 3;
+			m_BoardSizeLabel.Text     = "Board Size:";
 			// 
 			// m_PlayersLabel
 			// 
-			this.m_PlayersLabel.AutoSize = true;
-			this.m_PlayersLabel.Location = new System.Drawing.Point(21, 89);
-			this.m_PlayersLabel.Name = "m_PlayersLabel";
-			this.m_PlayersLabel.Size = new System.Drawing.Size(44, 13);
-			this.m_PlayersLabel.TabIndex = 4;
-			this.m_PlayersLabel.Text = "Players:";
+			m_PlayersLabel.AutoSize = true;
+			m_PlayersLabel.Location = new Point(21, 89);
+			m_PlayersLabel.Name     = "m_PlayersLabel";
+			m_PlayersLabel.Size     = new Size(44, 13);
+			m_PlayersLabel.TabIndex = 4;
+			m_PlayersLabel.Text     = "Players:";
 			// 
 			// m_PlayerOneLabel
 			// 
-			this.m_PlayerOneLabel.AutoSize = true;
-			this.m_PlayerOneLabel.Location = new System.Drawing.Point(30, 118);
-			this.m_PlayerOneLabel.Name = "m_PlayerOneLabel";
-			this.m_PlayerOneLabel.Size = new System.Drawing.Size(48, 13);
-			this.m_PlayerOneLabel.TabIndex = 5;
-			this.m_PlayerOneLabel.Text = "Player 1:";
+			m_PlayerOneLabel.AutoSize = true;
+			m_PlayerOneLabel.Location = new Point(30, 118);
+			m_PlayerOneLabel.Name     = "m_PlayerOneLabel";
+			m_PlayerOneLabel.Size     = new Size(48, 13);
+			m_PlayerOneLabel.TabIndex = 5;
+			m_PlayerOneLabel.Text     = "Player 1:";
 			// 
 			// m_PlayerOneNameTextBox
 			// 
-			this.m_PlayerOneNameTextBox.Location = new System.Drawing.Point(112, 118);
-			this.m_PlayerOneNameTextBox.MaxLength = 10;
-			this.m_PlayerOneNameTextBox.Name = "m_PlayerOneNameTextBox";
-			this.m_PlayerOneNameTextBox.Size = new System.Drawing.Size(103, 20);
-			this.m_PlayerOneNameTextBox.TabIndex = 6;
+			m_PlayerOneNameTextBox.Location  = new Point(112, 118);
+			m_PlayerOneNameTextBox.MaxLength = 10;
+			m_PlayerOneNameTextBox.Name      = "m_PlayerOneNameTextBox";
+			m_PlayerOneNameTextBox.Size      = new Size(103, 20);
+			m_PlayerOneNameTextBox.TabIndex  = 6;
 			// 
 			// m_PlayerTwoCheckBox
 			// 
-			this.m_PlayerTwoCheckBox.AutoSize = true;
-			this.m_PlayerTwoCheckBox.Location = new System.Drawing.Point(33, 155);
-			this.m_PlayerTwoCheckBox.Name = "m_PlayerTwoCheckBox";
-			this.m_PlayerTwoCheckBox.Size = new System.Drawing.Size(67, 17);
-			this.m_PlayerTwoCheckBox.TabIndex = 7;
-			this.m_PlayerTwoCheckBox.Text = "Player 2:";
-			this.m_PlayerTwoCheckBox.UseVisualStyleBackColor = true;
-			this.m_PlayerTwoCheckBox.CheckedChanged += new System.EventHandler(this.onCheckBoxClicked);
+			m_PlayerTwoCheckBox.AutoSize                =  true;
+			m_PlayerTwoCheckBox.Location                =  new Point(33, 155);
+			m_PlayerTwoCheckBox.Name                    =  "m_PlayerTwoCheckBox";
+			m_PlayerTwoCheckBox.Size                    =  new Size(67, 17);
+			m_PlayerTwoCheckBox.TabIndex                =  7;
+			m_PlayerTwoCheckBox.Text                    =  "Player 2:";
+			m_PlayerTwoCheckBox.UseVisualStyleBackColor =  true;
+			m_PlayerTwoCheckBox.CheckedChanged          += onCheckBoxClicked;
 			// 
 			// m_PlayerTwoNameTextBox
 			// 
-			this.m_PlayerTwoNameTextBox.Enabled = false;
-			this.m_PlayerTwoNameTextBox.Location = new System.Drawing.Point(112, 155);
-			this.m_PlayerTwoNameTextBox.MaxLength = 10;
-			this.m_PlayerTwoNameTextBox.Name = "m_PlayerTwoNameTextBox";
-			this.m_PlayerTwoNameTextBox.Size = new System.Drawing.Size(103, 20);
-			this.m_PlayerTwoNameTextBox.TabIndex = 8;
-			this.m_PlayerTwoNameTextBox.Text = "[Computer]";
+			m_PlayerTwoNameTextBox.Enabled   = false;
+			m_PlayerTwoNameTextBox.Location  = new Point(112, 155);
+			m_PlayerTwoNameTextBox.MaxLength = 10;
+			m_PlayerTwoNameTextBox.Name      = "m_PlayerTwoNameTextBox";
+			m_PlayerTwoNameTextBox.Size      = new Size(103, 20);
+			m_PlayerTwoNameTextBox.TabIndex  = 8;
+			m_PlayerTwoNameTextBox.Text      = "[Computer]";
 			// 
 			// m_DoneButton
 			// 
-			this.m_DoneButton.Location = new System.Drawing.Point(140, 200);
-			this.m_DoneButton.Name = "m_DoneButton";
-			this.m_DoneButton.Size = new System.Drawing.Size(75, 23);
-			this.m_DoneButton.TabIndex = 9;
-			this.m_DoneButton.Text = "Done";
-			this.m_DoneButton.UseVisualStyleBackColor = true;
-			this.m_DoneButton.Click += new System.EventHandler(this.doneButton_Click);
+			m_DoneButton.Location                =  new Point(140, 200);
+			m_DoneButton.Name                    =  "m_DoneButton";
+			m_DoneButton.Size                    =  new Size(75, 23);
+			m_DoneButton.TabIndex                =  9;
+			m_DoneButton.Text                    =  "Done";
+			m_DoneButton.UseVisualStyleBackColor =  true;
+			m_DoneButton.Click                   += doneButton_Click;
 			// 
 			// Settings
 			// 
-			this.AcceptButton = this.m_DoneButton;
-			this.ClientSize = new System.Drawing.Size(239, 244);
-			this.Controls.Add(this.m_DoneButton);
-			this.Controls.Add(this.m_PlayerTwoNameTextBox);
-			this.Controls.Add(this.m_PlayerTwoCheckBox);
-			this.Controls.Add(this.m_PlayerOneNameTextBox);
-			this.Controls.Add(this.m_PlayerOneLabel);
-			this.Controls.Add(this.m_PlayersLabel);
-			this.Controls.Add(this.m_BoardSizeLabel);
-			this.Controls.Add(this.m_RadioButton10X10);
-			this.Controls.Add(this.m_RadioButton8X8);
-			this.Controls.Add(this.m_RadioButton6X6);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "Settings";
-			this.Text = "Game Settings";
-			this.ResumeLayout(false);
-			this.PerformLayout();
-
+			AcceptButton = m_DoneButton;
+			ClientSize   = new Size(239, 244);
+			Controls.Add(m_DoneButton);
+			Controls.Add(m_PlayerTwoNameTextBox);
+			Controls.Add(m_PlayerTwoCheckBox);
+			Controls.Add(m_PlayerOneNameTextBox);
+			Controls.Add(m_PlayerOneLabel);
+			Controls.Add(m_PlayersLabel);
+			Controls.Add(m_BoardSizeLabel);
+			Controls.Add(m_RadioButton10X10);
+			Controls.Add(m_RadioButton8X8);
+			Controls.Add(m_RadioButton6X6);
+			FormBorderStyle = FormBorderStyle.FixedToolWindow;
+			Name            = "Settings";
+			Text            = "Game Settings";
+			ResumeLayout(false);
+			PerformLayout();
 		}
 
 		private void removeText()
@@ -193,20 +215,13 @@ namespace B18Ex05.Checkers.View
 		private void doneButton_Click(object i_Sender, EventArgs i_EventArg)
 		{
 			Hide();
-			GameBoard checkersGame = new GameBoard(m_PlayerSelectedBoardSize)
-			{
-				PlayerOneName = m_PlayerOneNameTextBox.Text + ":",
-				PlayerTwoName = m_PlayerTwoNameTextBox.Text + ":"
-			};
-			checkersGame.ShowDialog();
-			Close();
 		}
 
 		private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArg)
 		{
 			if (i_Sender is RadioButton radioButton && radioButton.Checked)
 			{
-				m_PlayerSelectedBoardSize = int.Parse(radioButton.Tag.ToString());
+				PlayerSelectedBoardSize = int.Parse(radioButton.Tag.ToString());
 			}
 		}
 	}

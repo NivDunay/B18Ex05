@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
@@ -15,7 +14,7 @@ namespace B18Ex05.Checkers.View
 			r_Location = i_Location;
 			Height     = Constants.k_ButtonHeight;
 			Width      = Constants.k_ButtonWidth;
-			BackColor = Color.White;
+			BackColor  = Color.White;
 		}
 	}
 }

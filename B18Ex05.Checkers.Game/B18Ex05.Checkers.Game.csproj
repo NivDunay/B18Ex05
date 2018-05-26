@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7B2DE5E-DAB3-4384-949E-BD871F4C2143}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>B18Ex05.Checkers.Controller</RootNamespace>
-    <AssemblyName>B18Ex05.Checkers.Controller</AssemblyName>
+    <ProjectGuid>{EBB373BA-CBCF-4355-9B9D-7914195BF3AE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>B18Ex05.Checkers.Game</RootNamespace>
+    <AssemblyName>B18Ex05.Checkers.Game</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -29,24 +30,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameController.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\B18Ex05.Checkers.Model\B18Ex05.Checkers.Model.csproj">
-      <Project>{2a1ace24-f8b4-46c7-949e-afb5f33a30d4}</Project>
-      <Name>B18Ex05.Checkers.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\B18Ex05.Checkers.View\B18Ex05.Checkers.View.csproj">
-      <Project>{575683ae-de86-4169-b3d6-960b8c0e4a54}</Project>
-      <Name>B18Ex05.Checkers.View</Name>
+    <ProjectReference Include="..\B18Ex05.Checkers.Controller\B18Ex05.Checkers.Controller.csproj">
+      <Project>{c7b2de5e-dab3-4384-949e-bd871f4c2143}</Project>
+      <Name>B18Ex05.Checkers.Controller</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

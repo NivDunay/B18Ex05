@@ -6,10 +6,16 @@ namespace B18Ex05.Checkers.Controller
 {
 	public class GameController
 	{
-		private readonly Settings r_View             = new Settings();
-		private readonly Game     r_Model            = new Game();
-		private          bool     m_PlayAnotherRound = false;
+		private readonly GameBoard r_View             = new GameBoard();
+		private readonly Game      r_Model            = new Game();
+		private          bool      m_PlayAnotherRound = false;
 
+		public GameController()
+		{
+			InitializeGame();
+			r_View.ShowDialog();
+		}
+		/*
 		public void IsAnotherRound()
 		{
 			m_PlayAnotherRound = r_View.AskForAnotherRound();
@@ -157,48 +163,38 @@ namespace B18Ex05.Checkers.Controller
 
 			return doesPlayerHaveLegalMoves;
 		}
-
+		*/
 		public void InitializeGame()
 		{
-			int  boardSize;
-			bool vsComputer;
-			System.Console.Title = "Checkers Game - By Niv Dunay and Jonathan Erez";
+			bool playerTwoActive = r_View.IsPlayerTwoActive;
 			initializePlayerOne();
-			boardSize  = r_View.AskGameBoardSize();
-			vsComputer = r_View.AskHowManyPlayers() == 1;
-			initializePlayerTwo(vsComputer);
-			initializeBoard(boardSize);
-			initializeViewBoard();
+			initializePlayerTwo(playerTwoActive);
+			initializeBoard(r_View.GameBoardSize);
 		}
 
 		private void initializePlayerOne()
 		{
-			r_Model.InitializePlayerOne(r_View.AskPlayerName(r_Model.CurrentPlayerTurn));
+			r_Model.InitializePlayerOne(r_View.PlayerOneName);
 		}
 
-		private void initializePlayerTwo(bool i_IsComputer)
+		private void initializePlayerTwo(bool i_PlayerTwoIsComputer)
 		{
-			if (!i_IsComputer)
-			{
-				r_Model.InitializePlayerTwo(r_View.AskPlayerName(r_Model.OtherPlayer()), i_IsComputer);
-			}
-			else
-			{
-				r_Model.InitializePlayerTwo("CheckersAI", i_IsComputer);
-			}
+			r_Model.InitializePlayerTwo(r_View.PlayerTwoName, i_PlayerTwoIsComputer);
 		}
 
 		private void initializeBoard(int i_GameBoardSize)
 		{
-			r_Model.InitializeBoard(i_GameBoardSize);
+			r_Model.CreateGameBoard(i_GameBoardSize);
+			r_Model.AddListnerToGamePieceCreated(r_View.newGamePieceCreatedHandler);
+			r_Model.InitializeBoard();
 		}
-
+		/*
 		private void initializeViewBoard()
 		{
 			r_View.GameBoard = new char[r_Model.BoardSize, r_Model.BoardSize];
 			updateBoard();
 		}
-
+		
 		private void updateBoard()
 		{
 			for (int row = 0; row < r_View.GameBoardSize; row++)
@@ -216,10 +212,11 @@ namespace B18Ex05.Checkers.Controller
 			r_View.ClearScreen();
 			r_View.PrintBoard();
 		}
-
+		
 		public void EndGame()
 		{
 			r_View.EndGame();
 		}
+		*/
 	}
 }

@@ -220,10 +220,14 @@ namespace B18Ex05.Checkers.Model
 			r_Players[1] = new Player(i_Name, 'X', 'K', Player.eDirection.Up, i_IsComputer);
 		}
 
-		public void InitializeBoard(int i_BoardSize)
+		public void InitializeBoard()
+		{
+			m_Board.InitializeBoard(r_Players[0], r_Players[1]);
+		}
+
+		public void CreateGameBoard(int i_BoardSize)
 		{
 			m_Board = new GameBoard(i_BoardSize);
-			m_Board.InitializeBoard(r_Players[0], r_Players[1]);
 		}
 
 		public char GetSymbol(Point i_Coordinates)
@@ -262,6 +266,11 @@ namespace B18Ex05.Checkers.Model
 			}
 
 			return playerScore;
+		}
+
+		public void AddListnerToGamePieceCreated(GamePieceCreatedHandler i_HandlerToAdd)
+		{
+			m_Board.GamePieceCreated += i_HandlerToAdd;
 		}
 	}
 }

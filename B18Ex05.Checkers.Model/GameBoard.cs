@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
 {
+	public delegate void GamePieceCreatedHandler(Point i_Location, char i_Symbol);
+
 	internal class GameBoard
 	{
-		private readonly int          r_BoardSize;
-		private readonly GamePiece[,] r_Board;
+		private readonly int                 r_BoardSize;
+		private readonly GamePiece[,]        r_Board;
+		public event GamePieceCreatedHandler GamePieceCreated;
 
 		public GameBoard(int i_BoardSize)
 		{
@@ -161,8 +165,14 @@ namespace B18Ex05.Checkers.Model
 				for (; currentCol < r_BoardSize; currentCol += 2)
 				{
 					r_Board[currentRow, currentCol] = new GamePiece(i_Player, new Point(currentCol, currentRow));
+					OnGamePieceCreated(r_Board[currentRow, currentCol]);
 				}
 			}
+		}
+
+		protected virtual void OnGamePieceCreated(GamePiece i_NewGamePiece)
+		{
+			GamePieceCreated?.Invoke(i_NewGamePiece.Location, i_NewGamePiece.Symbol);
 		}
 
 		public int Size
