@@ -1,20 +1,32 @@
 ﻿using System;
 using B18Ex05.Checkers.Model;
 using B18Ex05.Checkers.View;
+using System.Drawing;
 
 namespace B18Ex05.Checkers.Controller
 {
+
 	public class GameController
 	{
 		private readonly GameBoard r_View             = new GameBoard();
 		private readonly Game      r_Model            = new Game();
+		public	event	 GetMove   MovePiece;
 		private          bool      m_PlayAnotherRound = false;
 
 		public GameController()
 		{
 			InitializeGame();
+			r_View.MoveSquare += MakePieceMove;
 			r_View.ShowDialog();
 		}
+
+		public void MakePieceMove(Point i_Location, Point i_Destination)
+		{
+			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
+			
+		}
+
+
 		/*
 		public void IsAnotherRound()
 		{
@@ -34,18 +46,18 @@ namespace B18Ex05.Checkers.Controller
 		{
 			get { return m_PlayAnotherRound; }
 		}
-
+		*/
 		public void PlayCurrentTurn()
 		{
-			bool canPlayerQuit = canCurrentPlayerQuit();
+			//bool canPlayerQuit = canCurrentPlayerQuit();
 			r_Model.IsGameOver = doesCurrentPlayerHaveMoves();
 			if (!r_Model.IsGameOver)
 			{
-				r_View.TurnInformation(
-					r_Model.GetPlayerName(r_Model.CurrentPlayerTurn),
-					r_Model.GetPlayerSymbol(r_Model.CurrentPlayerTurn),
-					r_Model.GetPlayerName(r_Model.OtherPlayer()),
-					r_Model.GetPlayerSymbol(r_Model.OtherPlayer()));
+				//r_View.TurnInformation(
+				//	r_Model.GetPlayerName(r_Model.CurrentPlayerTurn),
+				//	r_Model.GetPlayerSymbol(r_Model.CurrentPlayerTurn),
+				//	r_Model.GetPlayerName(r_Model.OtherPlayer()),
+				//	r_Model.GetPlayerSymbol(r_Model.OtherPlayer()));
 				decideActionForCurrentTurn(canPlayerQuit, out int playerSelectedMove);
 				if (!r_Model.DidPlayerQuit)
 				{
@@ -74,7 +86,7 @@ namespace B18Ex05.Checkers.Controller
 
 			r_Model.IsGameOver = r_Model.DidPlayerQuit || r_Model.IsGameOver;
 		}
-
+		/*
 		private void makePlayerMove(int i_PlayerSelectedMove)
 		{
 			r_Model.MakePlayerMove(i_PlayerSelectedMove);
@@ -87,18 +99,18 @@ namespace B18Ex05.Checkers.Controller
 			return ((int) r_Model.CalculatePlayerScore(r_Model.CurrentPlayerTurn) -
 					(int) r_Model.CalculatePlayerScore(r_Model.OtherPlayer())) < 0;
 		}
-
+		*/
 		private void decideActionForCurrentTurn(bool i_CanPlayerQuit, out int o_PlayerSelectedMove)
 		{
 			Random selectedAction = new Random();
 			if (!r_Model.IsCurrentPlayerComputer())
 			{
-				r_Model.DidPlayerQuit = r_View.GetPlayerInput(r_Model.GetCurrentMoves(), i_CanPlayerQuit, out o_PlayerSelectedMove);
+				r_Model.DidPlayerQuit = r_View.GetPlayerInput(r_Model.CurrentMoves, i_CanPlayerQuit, out o_PlayerSelectedMove);
 			}
 			else
 			{
-				o_PlayerSelectedMove = selectedAction.Next(0, r_Model.GetCurrentMoves().Count - 1);
-				r_View.LastAction    = r_Model.GetCurrentMoves()[o_PlayerSelectedMove];
+				o_PlayerSelectedMove = selectedAction.Next(0, r_Model.CurrentMoves().Count - 1);
+				r_View.LastAction    = r_Model.CurrentMoves()[o_PlayerSelectedMove];
 			}
 		}
 
@@ -134,7 +146,7 @@ namespace B18Ex05.Checkers.Controller
 				r_Model.GetPlayerName(r_Model.OtherPlayer()),
 				r_Model.GetPlayerScore(r_Model.OtherPlayer()));
 		}
-
+		*/
 		private bool doesCurrentPlayerHaveMoves()
 		{
 			bool doesCurrentPlayerHaveMoves;
@@ -163,7 +175,7 @@ namespace B18Ex05.Checkers.Controller
 
 			return doesPlayerHaveLegalMoves;
 		}
-		*/
+		
 		public void InitializeGame()
 		{
 			bool playerTwoActive = r_View.IsPlayerTwoActive;

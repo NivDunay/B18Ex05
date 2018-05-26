@@ -2,7 +2,7 @@
 
 namespace B18Ex05.Checkers.Model
 {
-	internal class PieceMove
+	public class PieceMove
 	{
 		private readonly bool  r_DoesEat;
 		private          Point m_Location;

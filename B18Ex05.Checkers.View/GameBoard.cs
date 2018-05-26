@@ -4,6 +4,8 @@ using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
+	public delegate void GetMove(Point i_Location, Point i_Destination);
+
 	public class GameBoard : Form
 	{
 		private readonly int             r_GameBoardSize;
@@ -11,6 +13,8 @@ namespace B18Ex05.Checkers.View
 		private          Label           m_PlayerOneName;
 		private          Label           m_PlayerTwoName;
 		private          GameBoardSquare m_CurrentBoardSquare;
+		private GameBoardSquare m_BoardSquareDestination;
+		public event GetMove MoveSquare;
 		private readonly Settings        r_GameSettings;
 
 		public GameBoard()
@@ -93,29 +97,36 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
+		public void On_PieceMove()
+		{
+			if(MoveSquare != null)
+			{
+				MoveSquare.Invoke(m_CurrentBoardSquare.Location, m_BoardSquareDestination.Location);
+			}
+		}
+
 		private void gameBoardSquare_ButtonClicked(object i_Sender, EventArgs i_EventArgs)
 		{
 			GameBoardSquare currentButton = i_Sender as GameBoardSquare;
-			adjustButtonColor(currentButton);
-		}
 
-		private void adjustButtonColor(GameBoardSquare i_CurrentButton)
-		{
 			if (m_CurrentBoardSquare == null)
 			{
-				m_CurrentBoardSquare = i_CurrentButton;
+				m_CurrentBoardSquare = currentButton;
+				swapButtonColour(currentButton);
 			}
-			else if (m_CurrentBoardSquare != i_CurrentButton)
+			else if (m_CurrentBoardSquare == currentButton)
 			{
 				swapButtonColour(m_CurrentBoardSquare);
-				m_CurrentBoardSquare = i_CurrentButton;
+				m_CurrentBoardSquare = null;
 			}
 			else
 			{
+				m_BoardSquareDestination = currentButton;
+				On_PieceMove();
+				swapButtonColour(m_CurrentBoardSquare);
 				m_CurrentBoardSquare = null;
+				m_BoardSquareDestination = null;
 			}
-
-			swapButtonColour(i_CurrentButton);
 		}
 
 		private void swapButtonColour(GameBoardSquare i_CurrentBoardSquare)

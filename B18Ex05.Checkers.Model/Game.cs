@@ -67,16 +67,12 @@ namespace B18Ex05.Checkers.Model
 			set { m_IsGameOver = value; }
 		}
 
-		public List<string> GetCurrentMoves()
+		public List<PieceMove> CurrentMoves
 		{
-			List<string> currentMoves = new List<string>(r_CurrentTurnPossibleMoves.Count);
-			foreach (PieceMove currentMove in r_CurrentTurnPossibleMoves)
+			get
 			{
-				currentMoves.Add(string.Format("{0}>{1}", locationToString(currentMove.Location),
-					locationToString(currentMove.Destination)));
+				return r_CurrentTurnPossibleMoves;
 			}
-
-			return currentMoves;
 		}
 
 		public int CurrentPlayerTurn
