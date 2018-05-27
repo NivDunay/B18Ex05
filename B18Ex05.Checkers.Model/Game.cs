@@ -3,6 +3,11 @@ using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
 {
+	public delegate void PieceWasRemoved(Point i_Location);
+	public delegate void PieceWasMoved(Point i_Location, Point i_Destination);
+	public delegate void KingWasMade(Point i_Location, char i_Symbol);
+	public delegate void ScoreChanged(string i_Player, string i_Score);
+
 	public class Game
 	{
 		private const int k_KingScore = 4;
@@ -16,6 +21,10 @@ namespace B18Ex05.Checkers.Model
 		private          bool            m_WasPieceEaten;
 		private          bool            m_IsGameOver;
 		private          bool            m_DidPlayerQuit;
+		public event PieceWasRemoved PieceRemoved;
+		public event PieceWasMoved PieceMoved;
+		public event KingWasMade MakeKing;
+		public event ScoreChanged ChangeScore;
 
 		public bool IsCurrentPlayerComputer()
 		{
@@ -26,6 +35,7 @@ namespace B18Ex05.Checkers.Model
 		{
 			foreach (GamePiece currentPiece in i_Player.GamePieces)
 			{
+				PieceRemoved.Invoke(currentPiece.Location);
 				m_Board.Board[currentPiece.Location.Y, currentPiece.Location.X] = null;
 			}
 
@@ -138,14 +148,18 @@ namespace B18Ex05.Checkers.Model
 
 			if (r_CurrentTurnPossibleMoves[i_PieceMoveIndex].DoesEat)
 			{
-				eatPiece(m_Board.FindEatenPiece(r_CurrentTurnPossibleMoves[i_PieceMoveIndex]));
+				GamePiece eatenPiece = m_Board.FindEatenPiece(r_CurrentTurnPossibleMoves[i_PieceMoveIndex]);
+				PieceRemoved?.Invoke(eatenPiece.Location);
+				eatPiece(eatenPiece);
 				m_WasPieceEaten = true;
 			}
 
+			PieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			movePiece(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
+			checkAndMakeKing();
 		}
 
-		public void CheckAndMakeKing()
+		private void checkAndMakeKing()
 		{
 			if (m_PieceToMove != null)
 			{
@@ -153,17 +167,23 @@ namespace B18Ex05.Checkers.Model
 				{
 					if (m_PieceToMove.Location.Y == m_Board.Size - 1)
 					{
-						m_PieceToMove.MakeKing();
+						doOnKingCreated();
 					}
 				}
 				else
 				{
 					if (m_PieceToMove.Location.Y == 0)
 					{
-						m_PieceToMove.MakeKing();
+						doOnKingCreated();
 					}
 				}
 			}
+		}
+
+		private void doOnKingCreated()
+		{
+			m_PieceToMove.MakeKing();
+			MakeKing?.Invoke(m_PieceToMove.Location, m_PieceToMove.Symbol);
 		}
 
 		private void movePiece(Point i_Destination)
@@ -239,6 +259,7 @@ namespace B18Ex05.Checkers.Model
 		public void SetPlayerScore(uint i_Score, int i_PlayerNumber)
 		{
 			r_Players[i_PlayerNumber].Score += i_Score;
+			ChangeScore?.Invoke(GetPlayerName(i_PlayerNumber), r_Players[i_PlayerNumber].Score.ToString());
 		}
 
 		public uint GetPlayerScore(int i_PlayerNumber)

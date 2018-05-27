@@ -16,5 +16,13 @@ namespace B18Ex05.Checkers.View
 			Width      = Constants.k_ButtonWidth;
 			BackColor  = Color.White;
 		}
+
+		public Point BoardLocation
+		{
+			get
+			{
+				return r_Location;
+			}
+		}
 	}
 }
