@@ -4,29 +4,29 @@ namespace B18Ex05.Checkers.Model
 {
 	internal class Player
 	{
-		private readonly string          r_Name;
-		private readonly char            r_GamePieceSymbol;
-		private readonly char            r_KingSymbol;
-		private readonly eDirection      r_Direction;
-		private readonly bool            r_IsComputer;
+		private readonly string r_Name;
+		private readonly char r_GamePieceSymbol;
+		private readonly char r_KingSymbol;
+		private readonly eDirection r_Direction;
+		private readonly bool r_IsComputer;
 		private readonly List<GamePiece> r_GamePieces = new List<GamePiece>();
-		private          uint            m_Score;
+		private uint m_Score;
 
 		internal enum eDirection
 		{
-			Down  = 1,
-			Up    = -1,
-			Left  = -1,
+			Down = 1,
+			Up = -1,
+			Left = -1,
 			Right = 1
 		}
 
 		public Player(string i_Name, char i_GamePieceSymbol, char i_KingSymbol, eDirection i_Direction, bool i_IsComputer)
 		{
-			r_Name            = i_Name;
+			r_Name = i_Name;
 			r_GamePieceSymbol = i_GamePieceSymbol;
-			r_KingSymbol      = i_KingSymbol;
-			r_Direction       = i_Direction;
-			r_IsComputer      = i_IsComputer;
+			r_KingSymbol = i_KingSymbol;
+			r_Direction = i_Direction;
+			r_IsComputer = i_IsComputer;
 		}
 
 		public eDirection Direction
@@ -38,16 +38,7 @@ namespace B18Ex05.Checkers.Model
 		{
 			get
 			{
-				eDirection reverseDirection;
-				if (r_Direction == eDirection.Down)
-				{
-					reverseDirection = eDirection.Up;
-				}
-				else
-				{
-					reverseDirection = eDirection.Down;
-				}
-
+				eDirection reverseDirection = r_Direction == eDirection.Down ? eDirection.Up : eDirection.Down;
 				return reverseDirection;
 			}
 		}

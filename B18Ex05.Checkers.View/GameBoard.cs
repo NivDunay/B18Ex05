@@ -5,6 +5,7 @@ using System.Windows.Forms;
 namespace B18Ex05.Checkers.View
 {
 	public delegate void GetMove(Point i_Location, Point i_Destination);
+
 	public delegate void StartNewGame();
 
 	public class GameBoard : Form
@@ -17,7 +18,7 @@ namespace B18Ex05.Checkers.View
 		private Label m_PlayerTwoScore;
 		private GameBoardSquare m_CurrentBoardSquare;
 		private GameBoardSquare m_BoardSquareDestination;
-		public event GetMove UserMoveSelcted;
+		public event GetMove      UserMoveSelcted;
 		public event StartNewGame StartGame;
 		private readonly Settings r_GameSettings;
 
@@ -111,26 +112,22 @@ namespace B18Ex05.Checkers.View
 						currentSquare.BackColor = Color.Gray;
 					}
 
-					currentSquare.Top = row * Constants.k_ButtonHeight + Constants.k_ButtonStartY;
-					currentSquare.Left = col * Constants.k_ButtonWidth + Constants.k_ButtonStartX;
+					currentSquare.Top = row  * Constants.k_ButtonHeight + Constants.k_ButtonStartY;
+					currentSquare.Left = col * Constants.k_ButtonWidth  + Constants.k_ButtonStartX;
 					currentSquare.Click += gameBoardSquare_ButtonClicked;
 					Controls.Add(currentSquare);
 				}
 			}
 		}
 
-		public void OnPieceMove()
+		private void onPieceMove()
 		{
-			if (UserMoveSelcted != null)
-			{
-				UserMoveSelcted.Invoke(m_CurrentBoardSquare.BoardLocation, m_BoardSquareDestination.BoardLocation);
-			}
+			UserMoveSelcted?.Invoke(m_CurrentBoardSquare.BoardLocation, m_BoardSquareDestination.BoardLocation);
 		}
 
 		private void gameBoardSquare_ButtonClicked(object i_Sender, EventArgs i_EventArgs)
 		{
 			GameBoardSquare currentButton = i_Sender as GameBoardSquare;
-
 			if (m_CurrentBoardSquare == null)
 			{
 				m_CurrentBoardSquare = currentButton;
@@ -144,7 +141,7 @@ namespace B18Ex05.Checkers.View
 			else
 			{
 				m_BoardSquareDestination = currentButton;
-				OnPieceMove();
+				onPieceMove();
 				swapButtonColour(m_CurrentBoardSquare);
 				m_CurrentBoardSquare = null;
 				m_BoardSquareDestination = null;
@@ -156,7 +153,7 @@ namespace B18Ex05.Checkers.View
 			i_CurrentBoardSquare.BackColor = i_CurrentBoardSquare.BackColor == Color.White ? Color.LightSkyBlue : Color.White;
 		}
 
-		public void newGamePieceCreatedHandler(Point i_Location, char i_Symbol)
+		public void NewGamePieceCreatedHandler(Point i_Location, char i_Symbol)
 		{
 			Controls[i_Location.ToString()].Text = i_Symbol.ToString();
 		}
@@ -164,12 +161,12 @@ namespace B18Ex05.Checkers.View
 		public void OnGameButtonMove(Point i_Location, Point i_Destination)
 		{
 			Controls[i_Destination.ToString()].Text = Controls[i_Location.ToString()].Text;
-			Controls[i_Location.ToString()].Text = "";
+			Controls[i_Location.ToString()].Text = string.Empty;
 		}
 
 		public void OnGameButtonRemoved(Point i_Location)
 		{
-			Controls[i_Location.ToString()].Text = "";
+			Controls[i_Location.ToString()].Text = string.Empty;
 		}
 
 		public void OnGameButtonChangeSymbol(Point i_Location, char i_Symbol)
@@ -185,11 +182,10 @@ namespace B18Ex05.Checkers.View
 		public void OnGameOver(string i_PlayerName)
 		{
 			string gameResult = i_PlayerName != null ? i_PlayerName + " Won" : " Tie";
-			DialogResult result = MessageBox.Show(string.Format("{0}! {1}Another Round?", gameResult, System.Environment.NewLine),"Game Over", MessageBoxButtons.YesNo);
-
-			if(result == DialogResult.Yes)
+			DialogResult result = MessageBox.Show(string.Format("{0}! {1}Another Round?", gameResult, Environment.NewLine), "Game Over", MessageBoxButtons.YesNo);
+			if (result == DialogResult.Yes)
 			{
-				StartGame.Invoke();
+				StartGame?.Invoke();
 			}
 			else
 			{
@@ -200,7 +196,7 @@ namespace B18Ex05.Checkers.View
 
 		public void OnScoreChanged(string i_Player, string i_Score)
 		{
-			if(i_Player == m_PlayerOneName.Text)
+			if (i_Player == m_PlayerOneName.Text)
 			{
 				m_PlayerOneScore.Text = ": " + i_Score;
 			}

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
@@ -8,14 +7,15 @@ namespace B18Ex05.Checkers.Model
 
 	internal class GameBoard
 	{
-		private readonly int                 r_BoardSize;
-		private readonly GamePiece[,]        r_Board;
+		private readonly int r_BoardSize;
+		private readonly GamePiece[,] r_Board;
+
 		public event GamePieceCreatedHandler GamePieceCreated;
 
 		public GameBoard(int i_BoardSize)
 		{
 			r_BoardSize = i_BoardSize;
-			r_Board     = new GamePiece[i_BoardSize, i_BoardSize];
+			r_Board = new GamePiece[i_BoardSize, i_BoardSize];
 		}
 
 		public List<PieceMove> FindPossibleSteppingForwardMoves(GamePiece i_GamePiece)
@@ -33,10 +33,8 @@ namespace B18Ex05.Checkers.Model
 		private List<PieceMove> findSteppingForwardMoves(GamePiece i_GamePiece, Player.eDirection i_VerticalDirection)
 		{
 			List<PieceMove> currentPieceSteppingForward = new List<PieceMove>(2);
-			PieceMove currentPieceSteppingLeft =
-				findSpecificSteppingMove(i_GamePiece.Location, i_VerticalDirection, Player.eDirection.Left);
-			PieceMove currentPieceSteppingRight =
-				findSpecificSteppingMove(i_GamePiece.Location, i_VerticalDirection, Player.eDirection.Right);
+			PieceMove currentPieceSteppingLeft = findSpecificSteppingMove(i_GamePiece.Location, i_VerticalDirection, Player.eDirection.Left);
+			PieceMove currentPieceSteppingRight = findSpecificSteppingMove(i_GamePiece.Location, i_VerticalDirection, Player.eDirection.Right);
 			if (currentPieceSteppingLeft != null)
 			{
 				currentPieceSteppingForward.Add(currentPieceSteppingLeft);
@@ -50,12 +48,11 @@ namespace B18Ex05.Checkers.Model
 			return currentPieceSteppingForward;
 		}
 
-		private PieceMove findSpecificSteppingMove(Point i_Location, Player.eDirection i_VerticalDirection,
-			Player.eDirection i_HorizontalDirection)
+		private PieceMove findSpecificSteppingMove(Point i_Location, Player.eDirection i_VerticalDirection, Player.eDirection i_HorizontalDirection)
 		{
 			PieceMove steppingMove = null;
-			int       row          = i_Location.Y + (int) i_VerticalDirection;
-			int       col          = i_Location.X + (int) i_HorizontalDirection;
+			int row = i_Location.Y + (int) i_VerticalDirection;
+			int col = i_Location.X + (int) i_HorizontalDirection;
 			if (isCoordinateInBoard(row, col) && getSquareOwnership(row, col) == null)
 			{
 				Point destination = new Point(col, row);
@@ -80,10 +77,8 @@ namespace B18Ex05.Checkers.Model
 		private List<PieceMove> findEatingMoves(GamePiece i_Piece, Player.eDirection i_VerticalDirection)
 		{
 			List<PieceMove> currentPieceEatingMoves = new List<PieceMove>(2);
-			PieceMove currentPieceEatingLeft =
-				findSpecificEatingMoves(i_Piece, i_VerticalDirection, Player.eDirection.Left);
-			PieceMove currentPieceEatingRight =
-				findSpecificEatingMoves(i_Piece, i_VerticalDirection, Player.eDirection.Right);
+			PieceMove currentPieceEatingLeft = findSpecificEatingMoves(i_Piece, i_VerticalDirection, Player.eDirection.Left);
+			PieceMove currentPieceEatingRight = findSpecificEatingMoves(i_Piece, i_VerticalDirection, Player.eDirection.Right);
 			if (currentPieceEatingLeft != null)
 			{
 				currentPieceEatingMoves.Add(currentPieceEatingLeft);
@@ -97,12 +92,11 @@ namespace B18Ex05.Checkers.Model
 			return currentPieceEatingMoves;
 		}
 
-		private PieceMove findSpecificEatingMoves(GamePiece i_Piece, Player.eDirection i_VerticalDirection,
-			Player.eDirection i_HorizontalDirection)
+		private PieceMove findSpecificEatingMoves(GamePiece i_Piece, Player.eDirection i_VerticalDirection, Player.eDirection i_HorizontalDirection)
 		{
-			PieceMove eatingMove    = null;
-			int       pieceToEatRow = i_Piece.Location.Y + (int) i_VerticalDirection;
-			int       pieceToEatCol = i_Piece.Location.X + (int) i_HorizontalDirection;
+			PieceMove eatingMove = null;
+			int pieceToEatRow = i_Piece.Location.Y + (int) i_VerticalDirection;
+			int pieceToEatCol = i_Piece.Location.X + (int) i_HorizontalDirection;
 			if (isCoordinateInBoard(pieceToEatRow, pieceToEatCol))
 			{
 				Player leftSquareOwner = getSquareOwnership(pieceToEatRow, pieceToEatCol);
@@ -126,8 +120,7 @@ namespace B18Ex05.Checkers.Model
 
 		public GamePiece FindEatenPiece(PieceMove i_EatingMove)
 		{
-			Point difference = new Point(i_EatingMove.Destination.X - i_EatingMove.Location.X,
-				i_EatingMove.Destination.Y                          - i_EatingMove.Location.Y);
+			Point difference = new Point(i_EatingMove.Destination.X - i_EatingMove.Location.X, i_EatingMove.Destination.Y - i_EatingMove.Location.Y);
 			difference.X = difference.X / 2;
 			difference.Y = difference.Y / 2;
 			Point eatenPieceLocation = new Point(i_EatingMove.Location.X + difference.X, i_EatingMove.Location.Y + difference.Y);
@@ -165,12 +158,12 @@ namespace B18Ex05.Checkers.Model
 				for (; currentCol < r_BoardSize; currentCol += 2)
 				{
 					r_Board[currentRow, currentCol] = new GamePiece(i_Player, new Point(currentCol, currentRow));
-					OnGamePieceCreated(r_Board[currentRow, currentCol]);
+					onGamePieceCreated(r_Board[currentRow, currentCol]);
 				}
 			}
 		}
 
-		protected virtual void OnGamePieceCreated(GamePiece i_NewGamePiece)
+		protected virtual void onGamePieceCreated(GamePiece i_NewGamePiece)
 		{
 			GamePieceCreated?.Invoke(i_NewGamePiece.Location, i_NewGamePiece.Symbol);
 		}

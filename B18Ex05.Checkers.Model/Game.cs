@@ -4,8 +4,11 @@ using System.Drawing;
 namespace B18Ex05.Checkers.Model
 {
 	public delegate void PieceWasRemoved(Point i_Location);
+
 	public delegate void PieceWasMoved(Point i_Location, Point i_Destination);
+
 	public delegate void KingWasMade(Point i_Location, char i_Symbol);
+
 	public delegate void ScoreChanged(string i_Player, string i_Score);
 
 	public class Game
@@ -13,17 +16,19 @@ namespace B18Ex05.Checkers.Model
 		private const int k_KingScore = 4;
 		private const int k_PawnScore = 1;
 
-		private          GameBoard       m_Board;
-		private readonly Player[]        r_Players = new Player[2];
-		private          int             m_PlayerTurn;
-		private          GamePiece       m_PieceToMove;
+		private readonly Player[] r_Players = new Player[2];
 		private readonly List<PieceMove> r_CurrentTurnPossibleMoves = new List<PieceMove>(2);
-		private          bool            m_WasPieceEaten;
-		private          bool            m_IsGameOver;
-		private          bool            m_DidPlayerQuit;
+		private GameBoard m_Board;
+		private int m_PlayerTurn;
+		private GamePiece m_PieceToMove;
+		private bool m_WasPieceEaten;
+
 		public event PieceWasRemoved PieceRemoved;
+
 		public event PieceWasMoved PieceMoved;
+
 		public event KingWasMade MakeKing;
+
 		public event ScoreChanged ChangeScore;
 
 		public bool IsCurrentPlayerComputer()
@@ -35,7 +40,7 @@ namespace B18Ex05.Checkers.Model
 		{
 			foreach (GamePiece currentPiece in i_Player.GamePieces)
 			{
-				PieceRemoved.Invoke(currentPiece.Location);
+				PieceRemoved?.Invoke(currentPiece.Location);
 				m_Board.Board[currentPiece.Location.Y, currentPiece.Location.X] = null;
 			}
 
@@ -57,49 +62,18 @@ namespace B18Ex05.Checkers.Model
 
 		private void resetGameFlags()
 		{
-			m_PlayerTurn    = 0;
-			m_IsGameOver    = false;
-			m_DidPlayerQuit = false;
+			m_PlayerTurn = 0;
 			m_WasPieceEaten = false;
-		}
-
-		public bool DidPlayerQuit
-		{
-			get { return m_DidPlayerQuit; }
-
-			set { m_DidPlayerQuit = value; }
-		}
-
-		public bool IsGameOver
-		{
-			get { return m_IsGameOver; }
-
-			set { m_IsGameOver = value; }
 		}
 
 		public List<PieceMove> CurrentMoves
 		{
-			get
-			{
-				return r_CurrentTurnPossibleMoves;
-			}
+			get { return r_CurrentTurnPossibleMoves; }
 		}
 
 		public int CurrentPlayerTurn
 		{
 			get { return m_PlayerTurn; }
-		}
-
-		public bool WasPieceEaten
-		{
-			get { return m_WasPieceEaten; }
-
-			set { m_WasPieceEaten = value; }
-		}
-
-		private string locationToString(Point i_Location)
-		{
-			return string.Format("{0}{1}", (char) (i_Location.X + 'A'), (char) (i_Location.Y + 'a'));
 		}
 
 		public string GetPlayerName(int i_PlayerNumber)
@@ -142,8 +116,7 @@ namespace B18Ex05.Checkers.Model
 		{
 			if (m_PieceToMove == null)
 			{
-				m_PieceToMove = m_Board.Board[r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location.Y,
-					r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location.X];
+				m_PieceToMove = m_Board.Board[r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location.Y, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location.X];
 			}
 
 			if (r_CurrentTurnPossibleMoves[i_PieceMoveIndex].DoesEat)
@@ -188,9 +161,9 @@ namespace B18Ex05.Checkers.Model
 
 		private void movePiece(Point i_Destination)
 		{
-			m_Board.Board[i_Destination.Y, i_Destination.X]                   = m_PieceToMove;
+			m_Board.Board[i_Destination.Y, i_Destination.X] = m_PieceToMove;
 			m_Board.Board[m_PieceToMove.Location.Y, m_PieceToMove.Location.X] = null;
-			m_PieceToMove.Location                                            = i_Destination;
+			m_PieceToMove.Location = i_Destination;
 		}
 
 		private void eatPiece(GamePiece i_EatenPiece)
@@ -202,8 +175,8 @@ namespace B18Ex05.Checkers.Model
 		public void EndTurn()
 		{
 			m_WasPieceEaten = false;
-			m_PieceToMove   = null;
-			m_PlayerTurn    = OtherPlayer();
+			m_PieceToMove = null;
+			m_PlayerTurn = OtherPlayer();
 		}
 
 		public int OtherPlayer()
@@ -224,6 +197,12 @@ namespace B18Ex05.Checkers.Model
 		public int BoardSize
 		{
 			get { return m_Board.Size; }
+		}
+
+		public bool WasPieceEaten
+		{
+			get { return m_WasPieceEaten; }
+			set { m_WasPieceEaten = value; }
 		}
 
 		public void InitializePlayerOne(string i_Name)

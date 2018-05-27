@@ -4,15 +4,15 @@ namespace B18Ex05.Checkers.Model
 {
 	public class PieceMove
 	{
-		private readonly bool  r_DoesEat;
-		private          Point m_Location;
-		private          Point m_Destination;
+		private readonly bool r_DoesEat;
+		private Point m_Location;
+		private Point m_Destination;
 
 		public PieceMove(Point i_Location, Point i_Destination, bool i_DoesEat)
 		{
-			m_Location    = i_Location;
+			m_Location = i_Location;
 			m_Destination = i_Destination;
-			r_DoesEat     = i_DoesEat;
+			r_DoesEat = i_DoesEat;
 		}
 
 		public Point Location
