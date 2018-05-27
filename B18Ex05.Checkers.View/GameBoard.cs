@@ -37,6 +37,7 @@ namespace B18Ex05.Checkers.View
 			AutoSize = true;
 			AutoSizeMode = AutoSizeMode.GrowAndShrink;
 			FormBorderStyle = FormBorderStyle.FixedSingle;
+			StartPosition = FormStartPosition.CenterScreen;
 			Font = new Font(Font, FontStyle.Bold);
 			Text = "Checkers";
 			m_PlayerOneName = new Label
