@@ -200,11 +200,6 @@ namespace B18Ex05.Checkers.View
 			Controls[i_Location.ToString()].Text = i_Symbol.ToString();
 		}
 
-		public void OnIllegalMove()
-		{
-			MessageBox.Show("Illegal move selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-		}
-
 		public void OnGameOver(string i_PlayerName)
 		{
 			string gameResult = i_PlayerName != null ? i_PlayerName + " Won" : " Tie";
