@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 using B18Ex05.Checkers.Model;
 using B18Ex05.Checkers.View;
 
@@ -9,7 +10,7 @@ namespace B18Ex05.Checkers.Controller
 
 	public class GameController
 	{
-		private readonly GameBoard r_View = new GameBoard();
+		private readonly GameWindow r_View = new GameWindow();
 		private readonly Game r_Model = new Game();
 		private bool m_IsFirstMove = true;
 
@@ -17,8 +18,11 @@ namespace B18Ex05.Checkers.Controller
 
 		public GameController()
 		{
-			initializeGame();
-			r_View.ShowDialog();
+			if (r_View.DialogResult != DialogResult.Cancel)
+			{
+				initializeGame();
+				r_View.ShowDialog();
+			}
 		}
 
 		private void playCurrentTurn(Point i_Location, Point i_Destination)
@@ -46,10 +50,10 @@ namespace B18Ex05.Checkers.Controller
 			{
 				if (isEatingMove)
 				{
-					throw new ArgumentException(string.Format("Illegal action! {0}Must preform an eating move!", System.Environment.NewLine));
+					throw new ArgumentException(string.Format("Illegal action! {0}Must preform an eating move!", Environment.NewLine));
 				}
 
-				throw new ArgumentException(string.Format("Illegal action! {0}Must move to an adjacent empty space!", System.Environment.NewLine));
+				throw new ArgumentException(string.Format("Illegal action! {0}Must move to an adjacent empty space!", Environment.NewLine));
 			}
 
 			if (r_Model.WasPieceEaten)
@@ -152,7 +156,7 @@ namespace B18Ex05.Checkers.Controller
 		private void initializeBoard(int i_GameBoardSize)
 		{
 			r_Model.CreateGameBoard(i_GameBoardSize);
-			r_Model.AddListnerToGamePieceCreated(r_View.NewGamePieceCreatedHandler);
+			r_Model.AddListnerToGamePieceCreated(r_View.OnGameButtonCreated);
 			r_Model.InitializeBoard();
 		}
 	}

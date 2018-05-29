@@ -276,12 +276,12 @@ namespace B18Ex05.Checkers.Model
 			{
 				if (m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].GamePieceSymbol && m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].KingSymbol)
 				{
-					throw new ArgumentException(string.Format("Illegal selection! {0}Selected piece does not belong to you!{0}Please select [{1}/{2}] to move.", System.Environment.NewLine, r_Players[CurrentPlayerTurn].GamePieceSymbol, r_Players[CurrentPlayerTurn].KingSymbol));
+					throw new ArgumentException(string.Format("Illegal selection! {0}Selected piece does not belong to you!{0}Please select [{1}/{2}] to move.", Environment.NewLine, r_Players[CurrentPlayerTurn].GamePieceSymbol, r_Players[CurrentPlayerTurn].KingSymbol));
 				}
 			}
 			else
 			{
-				throw new ArgumentException(string.Format("Illegal selection! {0}Cannot select an empty square!", System.Environment.NewLine));
+				throw new ArgumentException(string.Format("Illegal selection! {0}Cannot select an empty square!", Environment.NewLine));
 			}
 		}
 	}
