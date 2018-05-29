@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Drawing;
+using System.Timers;
 using System.Windows.Forms;
+using Timer = System.Timers.Timer;
 
 namespace B18Ex05.Checkers.View
 {
 	public delegate void GetMove(Point i_Location, Point i_Destination);
 
 	public delegate void StartNewGame();
+
+	public delegate void GameBoardSquareSelected(Point i_Location);
 
 	public class GameBoard : Form
 	{
@@ -19,7 +23,8 @@ namespace B18Ex05.Checkers.View
 		private GameBoardSquare m_CurrentBoardSquare;
 		private GameBoardSquare m_BoardSquareDestination;
 		public event GetMove      UserMoveSelcted;
-		public event StartNewGame StartGame;
+		public event StartNewGame ResetGame;
+		public event GameBoardSquareSelected BoardSquareSelected;
 		private readonly Settings r_GameSettings;
 
 		public GameBoard()
@@ -123,7 +128,14 @@ namespace B18Ex05.Checkers.View
 
 		private void onPieceMove()
 		{
-			UserMoveSelcted?.Invoke(m_CurrentBoardSquare.BoardLocation, m_BoardSquareDestination.BoardLocation);
+			try
+			{
+				UserMoveSelcted?.Invoke(m_CurrentBoardSquare.BoardLocation, m_BoardSquareDestination.BoardLocation);
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
 		}
 
 		private void gameBoardSquare_ButtonClicked(object i_Sender, EventArgs i_EventArgs)
@@ -131,8 +143,16 @@ namespace B18Ex05.Checkers.View
 			GameBoardSquare currentButton = i_Sender as GameBoardSquare;
 			if (m_CurrentBoardSquare == null)
 			{
-				m_CurrentBoardSquare = currentButton;
-				swapButtonColour(currentButton);
+				try
+				{
+					validateSelectedPiece(currentButton);
+					m_CurrentBoardSquare = currentButton;
+					swapButtonColour(currentButton);
+				}
+				catch (ArgumentException ex)
+				{
+					MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				}
 			}
 			else if (m_CurrentBoardSquare == currentButton)
 			{
@@ -147,6 +167,11 @@ namespace B18Ex05.Checkers.View
 				m_CurrentBoardSquare = null;
 				m_BoardSquareDestination = null;
 			}
+		}
+
+		private void validateSelectedPiece(GameBoardSquare i_CurrentButton)
+		{
+			BoardSquareSelected?.Invoke(i_CurrentButton.BoardLocation);
 		}
 
 		private void swapButtonColour(GameBoardSquare i_CurrentBoardSquare)
@@ -177,7 +202,7 @@ namespace B18Ex05.Checkers.View
 
 		public void OnIllegalMove()
 		{
-			MessageBox.Show("Illegal move selected!", "Error");
+			MessageBox.Show("Illegal move selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 		}
 
 		public void OnGameOver(string i_PlayerName)
@@ -186,7 +211,7 @@ namespace B18Ex05.Checkers.View
 			DialogResult result = MessageBox.Show(string.Format("{0}! {1}Another Round?", gameResult, Environment.NewLine), "Game Over", MessageBoxButtons.YesNo);
 			if (result == DialogResult.Yes)
 			{
-				StartGame?.Invoke();
+				ResetGame?.Invoke();
 			}
 			else
 			{
@@ -206,5 +231,25 @@ namespace B18Ex05.Checkers.View
 				m_PlayerTwoScore.Text = ": " + i_Score;
 			}
 		}
+
+		/* Commented for now, need to test the methods
+		public void delay(int i_TimeDelay)
+		{
+			System.TimeSpan timeToWait = new TimeSpan(0, 0, 0, 0, i_TimeDelay);
+			DateTime timeToStop = DateTime.Now + timeToWait;
+			while (DateTime.Now <= timeToStop);
+		}
+
+		public void delay2(int i_TimeDelay)
+		{
+			bool timerEnded = false;
+			System.Timers.Timer delayTimer = new System.Timers.Timer();
+			delayTimer.Interval = i_TimeDelay;
+			delayTimer.AutoReset = false;
+			delayTimer.Elapsed += (s, args) => timerEnded = true;
+			delayTimer.Start();
+			while (!timerEnded) ;
+		}
+		*/
 	}
 }

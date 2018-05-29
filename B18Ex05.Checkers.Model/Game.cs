@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
@@ -267,6 +268,21 @@ namespace B18Ex05.Checkers.Model
 		public void AddListnerToGamePieceCreated(GamePieceCreatedHandler i_HandlerToAdd)
 		{
 			m_Board.GamePieceCreated += i_HandlerToAdd;
+		}
+
+		public void ValidatePieceSelection(Point i_Location)
+		{
+			if (m_Board.Board[i_Location.Y, i_Location.X] != null)
+			{
+				if (m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].GamePieceSymbol && m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].KingSymbol)
+				{
+					throw new ArgumentException(string.Format("Illegal selection! {0}Selected piece does not belong to you!{0}Please select [{1}/{2}] to move.", System.Environment.NewLine, r_Players[CurrentPlayerTurn].GamePieceSymbol, r_Players[CurrentPlayerTurn].KingSymbol));
+				}
+			}
+			else
+			{
+				throw new ArgumentException(string.Format("Illegal selection! {0}Cannot select an empty square!", System.Environment.NewLine));
+			}
 		}
 	}
 }

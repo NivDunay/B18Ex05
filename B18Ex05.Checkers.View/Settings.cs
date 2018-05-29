@@ -18,10 +18,12 @@ namespace B18Ex05.Checkers.View
 		private TextBox m_PlayerTwoNameTextBox;
 		private RadioButton m_RadioButton10X10;
 		private RadioButton m_RadioButton6X6;
+		private System.ComponentModel.IContainer components;
 		private RadioButton m_RadioButton8X8;
 
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.m_RadioButton6X6 = new System.Windows.Forms.RadioButton();
 			this.m_RadioButton8X8 = new System.Windows.Forms.RadioButton();
 			this.m_RadioButton10X10 = new System.Windows.Forms.RadioButton();
@@ -32,7 +34,7 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerTwoCheckBox = new System.Windows.Forms.CheckBox();
 			this.m_PlayerTwoNameTextBox = new System.Windows.Forms.TextBox();
 			this.m_DoneButton = new System.Windows.Forms.Button();
-			this.m_ErrorProvider = new System.Windows.Forms.ErrorProvider(this);
+			this.m_ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.m_ErrorProvider)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -42,7 +44,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton6X6.BackColor = System.Drawing.SystemColors.Control;
 			this.m_RadioButton6X6.Location = new System.Drawing.Point(24, 49);
 			this.m_RadioButton6X6.Name = "m_RadioButton6X6";
-			this.m_RadioButton6X6.Size = new System.Drawing.Size(48, 17);
+			this.m_RadioButton6X6.Size = new System.Drawing.Size(59, 21);
 			this.m_RadioButton6X6.TabIndex = 0;
 			this.m_RadioButton6X6.TabStop = true;
 			this.m_RadioButton6X6.Tag = "6";
@@ -55,7 +57,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton8X8.AutoSize = true;
 			this.m_RadioButton8X8.Location = new System.Drawing.Point(89, 49);
 			this.m_RadioButton8X8.Name = "m_RadioButton8X8";
-			this.m_RadioButton8X8.Size = new System.Drawing.Size(48, 17);
+			this.m_RadioButton8X8.Size = new System.Drawing.Size(59, 21);
 			this.m_RadioButton8X8.TabIndex = 1;
 			this.m_RadioButton8X8.TabStop = true;
 			this.m_RadioButton8X8.Tag = "8";
@@ -68,7 +70,7 @@ namespace B18Ex05.Checkers.View
 			this.m_RadioButton10X10.AutoSize = true;
 			this.m_RadioButton10X10.Location = new System.Drawing.Point(155, 49);
 			this.m_RadioButton10X10.Name = "m_RadioButton10X10";
-			this.m_RadioButton10X10.Size = new System.Drawing.Size(60, 17);
+			this.m_RadioButton10X10.Size = new System.Drawing.Size(75, 21);
 			this.m_RadioButton10X10.TabIndex = 2;
 			this.m_RadioButton10X10.TabStop = true;
 			this.m_RadioButton10X10.Tag = "10";
@@ -81,7 +83,7 @@ namespace B18Ex05.Checkers.View
 			this.m_BoardSizeLabel.AutoSize = true;
 			this.m_BoardSizeLabel.Location = new System.Drawing.Point(21, 21);
 			this.m_BoardSizeLabel.Name = "m_BoardSizeLabel";
-			this.m_BoardSizeLabel.Size = new System.Drawing.Size(61, 13);
+			this.m_BoardSizeLabel.Size = new System.Drawing.Size(81, 17);
 			this.m_BoardSizeLabel.TabIndex = 3;
 			this.m_BoardSizeLabel.Text = "Board Size:";
 			// 
@@ -90,7 +92,7 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayersLabel.AutoSize = true;
 			this.m_PlayersLabel.Location = new System.Drawing.Point(21, 89);
 			this.m_PlayersLabel.Name = "m_PlayersLabel";
-			this.m_PlayersLabel.Size = new System.Drawing.Size(44, 13);
+			this.m_PlayersLabel.Size = new System.Drawing.Size(59, 17);
 			this.m_PlayersLabel.TabIndex = 4;
 			this.m_PlayersLabel.Text = "Players:";
 			// 
@@ -99,7 +101,7 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerOneLabel.AutoSize = true;
 			this.m_PlayerOneLabel.Location = new System.Drawing.Point(30, 118);
 			this.m_PlayerOneLabel.Name = "m_PlayerOneLabel";
-			this.m_PlayerOneLabel.Size = new System.Drawing.Size(48, 13);
+			this.m_PlayerOneLabel.Size = new System.Drawing.Size(64, 17);
 			this.m_PlayerOneLabel.TabIndex = 5;
 			this.m_PlayerOneLabel.Text = "Player 1:";
 			// 
@@ -108,8 +110,9 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerOneNameTextBox.Location = new System.Drawing.Point(112, 118);
 			this.m_PlayerOneNameTextBox.MaxLength = 10;
 			this.m_PlayerOneNameTextBox.Name = "m_PlayerOneNameTextBox";
-			this.m_PlayerOneNameTextBox.Size = new System.Drawing.Size(103, 20);
+			this.m_PlayerOneNameTextBox.Size = new System.Drawing.Size(103, 22);
 			this.m_PlayerOneNameTextBox.TabIndex = 6;
+			this.m_PlayerOneNameTextBox.TextChanged += new System.EventHandler(this.PlayerNameTextBox_TextChanged);
 			this.m_PlayerOneNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.playerNames_Validating);
 			// 
 			// m_PlayerTwoCheckBox
@@ -117,7 +120,7 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerTwoCheckBox.AutoSize = true;
 			this.m_PlayerTwoCheckBox.Location = new System.Drawing.Point(33, 155);
 			this.m_PlayerTwoCheckBox.Name = "m_PlayerTwoCheckBox";
-			this.m_PlayerTwoCheckBox.Size = new System.Drawing.Size(67, 17);
+			this.m_PlayerTwoCheckBox.Size = new System.Drawing.Size(86, 21);
 			this.m_PlayerTwoCheckBox.TabIndex = 7;
 			this.m_PlayerTwoCheckBox.Text = "Player 2:";
 			this.m_PlayerTwoCheckBox.UseVisualStyleBackColor = true;
@@ -129,9 +132,10 @@ namespace B18Ex05.Checkers.View
 			this.m_PlayerTwoNameTextBox.Location = new System.Drawing.Point(112, 155);
 			this.m_PlayerTwoNameTextBox.MaxLength = 10;
 			this.m_PlayerTwoNameTextBox.Name = "m_PlayerTwoNameTextBox";
-			this.m_PlayerTwoNameTextBox.Size = new System.Drawing.Size(103, 20);
+			this.m_PlayerTwoNameTextBox.Size = new System.Drawing.Size(103, 22);
 			this.m_PlayerTwoNameTextBox.TabIndex = 8;
 			this.m_PlayerTwoNameTextBox.Text = "[Computer]";
+			this.m_PlayerTwoNameTextBox.TextChanged += new System.EventHandler(this.PlayerNameTextBox_TextChanged);
 			this.m_PlayerTwoNameTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.playerNames_Validating);
 			// 
 			// m_DoneButton
@@ -207,7 +211,7 @@ namespace B18Ex05.Checkers.View
 			}
 			else
 			{
-				MessageBox.Show("Please enter valid data!", "Error", MessageBoxButtons.OK);
+				MessageBox.Show("Please enter valid data!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 
@@ -274,6 +278,11 @@ namespace B18Ex05.Checkers.View
 		{
 			get { return m_PlayerTwoNameTextBox.Text; }
 			set { m_PlayerTwoNameTextBox.Text = value; }
+		}
+
+		private void PlayerNameTextBox_TextChanged(object sender, EventArgs e)
+		{
+			validateName(sender as TextBox);
 		}
 	}
 }

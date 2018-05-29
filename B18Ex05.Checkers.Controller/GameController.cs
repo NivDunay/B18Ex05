@@ -5,8 +5,6 @@ using B18Ex05.Checkers.View;
 
 namespace B18Ex05.Checkers.Controller
 {
-	public delegate void IllegalMove();
-
 	public delegate void GameOver(string i_PlayerName);
 
 	public class GameController
@@ -14,8 +12,6 @@ namespace B18Ex05.Checkers.Controller
 		private readonly GameBoard r_View = new GameBoard();
 		private readonly Game r_Model = new Game();
 		private bool m_IsFirstMove = true;
-
-		public event IllegalMove IllegalMoveMade;
 
 		public event GameOver GameIsOver;
 
@@ -28,6 +24,7 @@ namespace B18Ex05.Checkers.Controller
 		private void playCurrentTurn(Point i_Location, Point i_Destination)
 		{
 			bool isLegalMove = false;
+			bool isEatingMove = false;
 			if (m_IsFirstMove)
 			{
 				r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
@@ -42,13 +39,20 @@ namespace B18Ex05.Checkers.Controller
 					m_IsFirstMove = false;
 					break;
 				}
+				isEatingMove = isEatingMove || pieceMove.DoesEat;
 			}
 
 			if (!isLegalMove)
 			{
-				IllegalMoveMade?.Invoke();
+				if (isEatingMove)
+				{
+					throw new ArgumentException(string.Format("Illegal action! {0}Must preform an eating move!", System.Environment.NewLine));
+				}
+
+				throw new ArgumentException(string.Format("Illegal action! {0}Must move to an adjacent empty space!", System.Environment.NewLine));
 			}
-			else if (r_Model.WasPieceEaten)
+
+			if (r_Model.WasPieceEaten)
 			{
 				if (!r_Model.FindPlayersContinuationMoves())
 				{
@@ -114,18 +118,25 @@ namespace B18Ex05.Checkers.Controller
 
 		private void initializeGame()
 		{
-			bool playerTwoActive = r_View.IsPlayerTwoActive;
 			initializePlayerOne();
-			initializePlayerTwo(!playerTwoActive);
+			initializePlayerTwo(!r_View.IsPlayerTwoActive);
 			initializeBoard(r_View.GameBoardSize);
-			r_View.UserMoveSelcted += playCurrentTurn;
+			initializeEvents();
+		}
+
+		private void initializeEvents()
+		{
+			//Initialize Model Events
+			r_Model.ChangeScore += r_View.OnScoreChanged;
 			r_Model.MakeKing += r_View.OnGameButtonChangeSymbol;
 			r_Model.PieceRemoved += r_View.OnGameButtonRemoved;
 			r_Model.PieceMoved += r_View.OnGameButtonMove;
-			IllegalMoveMade += r_View.OnIllegalMove;
+			//Initialize View Events
+			r_View.ResetGame += resetGameData;
+			r_View.UserMoveSelcted += playCurrentTurn;
+			r_View.BoardSquareSelected += r_Model.ValidatePieceSelection;
+			//Initialize Controller Events
 			GameIsOver += r_View.OnGameOver;
-			r_View.StartGame += resetGameData;
-			r_Model.ChangeScore += r_View.OnScoreChanged;
 		}
 
 		private void initializePlayerOne()
