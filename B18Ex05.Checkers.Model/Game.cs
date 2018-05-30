@@ -28,6 +28,8 @@ namespace B18Ex05.Checkers.Model
 
 		public event PieceWasMoved PieceMoved;
 
+		public event PieceWasMoved ComputerPieceMoved;
+
 		public event KingWasMade MakeKing;
 
 		public event ScoreChanged ChangeScore;
@@ -126,6 +128,11 @@ namespace B18Ex05.Checkers.Model
 				PieceRemoved?.Invoke(eatenPiece.Location);
 				eatPiece(eatenPiece);
 				m_WasPieceEaten = true;
+			}
+
+			if(IsCurrentPlayerComputer() == true)
+			{
+				ComputerPieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			}
 
 			PieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);

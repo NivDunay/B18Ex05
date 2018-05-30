@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
-	public class GameBoardSquare : Button
+	public class GameWindowButton : Button
 	{
 		private readonly Point r_Location;
 
-		public GameBoardSquare(Point i_Location)
+		public GameWindowButton(Point i_Location)
 		{
 			Name = i_Location.ToString();
 			Text = string.Empty;
@@ -15,9 +15,10 @@ namespace B18Ex05.Checkers.View
 			Height = Constants.k_ButtonHeight;
 			Width = Constants.k_ButtonWidth;
 			BackColor = Color.White;
+			Font = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Bold);
 		}
 
-		public Point BoardLocation
+		public Point ButtonLocation
 		{
 			get { return r_Location; }
 		}

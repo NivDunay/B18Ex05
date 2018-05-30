@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
-	public delegate void GameBoardSquareSelected(Point i_Location);
+	public delegate void GameWindowButtonSelected(Point i_Location);
 
 	public delegate void StartNewGame();
 
@@ -13,26 +13,29 @@ namespace B18Ex05.Checkers.View
 	public partial class GameWindow : Form
 	{
 
-		private int m_GameBoardSize;
+		private int m_GameWindowSize;
 		private bool m_PlayerTwoActive;
 		private GameSettings m_GameSettings;
-		private GameBoardSquare m_CurrentBoardSquare;
-		private GameBoardSquare m_BoardSquareDestination;
+		private GameWindowButton m_CurrentWindowButton;
+		private GameWindowButton m_WindowButtonDestination;
+		private GameWindowButton m_ComputerCurrentWindowButton;
+		private GameWindowButton m_ComputerWindowButtonDestination;
+		private Timer m_MyTimer;
 
-		public event GetMove                 UserMoveSelcted;
+		public event GetMove                 UserMoveSelect;
 
 		public event StartNewGame            ResetGame;
 
-		public event GameBoardSquareSelected BoardSquareSelected;
+		public event GameWindowButtonSelected WindowButtonSelect;
 
 		public GameWindow()
 		{
 			initializeGameWindow();
 		}
 
-		public int GameBoardSize
+		public int GameWindowSize
 		{
-			get { return m_GameBoardSize; }
+			get { return m_GameWindowSize; }
 		}
 
 		public string PlayerOneName
@@ -55,9 +58,10 @@ namespace B18Ex05.Checkers.View
 		private void initializeGameWindow()
 		{
 			m_GameSettings = new GameSettings();
+			m_MyTimer = new Timer();
 			if (m_GameSettings.DialogResult == DialogResult.OK)
 			{
-				m_GameBoardSize = m_GameSettings.PlayerSelectedBoardSize;
+				m_GameWindowSize = m_GameSettings.PlayerSelectedWindowSize;
 				m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
 				createButtonMatrix();
 				InitializeComponent();
@@ -75,11 +79,11 @@ namespace B18Ex05.Checkers.View
 
 		private void createButtonMatrix()
 		{
-			for (int row = 0; row < m_GameBoardSize; row++)
+			for (int row = 0; row < m_GameWindowSize; row++)
 			{
-				for (int col = 0; col < m_GameBoardSize; col++)
+				for (int col = 0; col < m_GameWindowSize; col++)
 				{
-					GameBoardSquare currentSquare = new GameBoardSquare(new Point(col, row));
+					GameWindowButton currentSquare = new GameWindowButton(new Point(col, row));
 					if (row % 2 == 0 && col % 2 == 0 || row % 2 == 1 && col % 2 == 1)
 					{
 						currentSquare.Enabled = false;
@@ -88,40 +92,47 @@ namespace B18Ex05.Checkers.View
 
 					currentSquare.Top = row  * Constants.k_ButtonHeight + Constants.k_ButtonStartY;
 					currentSquare.Left = col * Constants.k_ButtonWidth  + Constants.k_ButtonStartX;
-					currentSquare.Click += gameBoardSquare_ButtonClicked;
+					currentSquare.Click += gameWindowButton_ButtonClicked;
 					Controls.Add(currentSquare);
 				}
 			}
 		}
 
-		private void gameBoardSquare_ButtonClicked(object i_Sender, EventArgs i_E)
+		private void gameWindowButton_ButtonClicked(object i_Sender, EventArgs i_E)
 		{
-			GameBoardSquare currentButton = i_Sender as GameBoardSquare;
-			if (m_CurrentBoardSquare == null)
+			GameWindowButton currentButton = i_Sender as GameWindowButton;
+			if (m_CurrentWindowButton == null)
 			{
+				if (m_ComputerCurrentWindowButton != null && m_ComputerWindowButtonDestination != null)
+				{
+					swapButtonColor(m_ComputerCurrentWindowButton);
+					swapButtonColor(m_ComputerWindowButtonDestination);
+					m_ComputerCurrentWindowButton = null;
+					m_ComputerWindowButtonDestination = null;
+				}
 				try
 				{
 					validateSelectedPiece(currentButton);
-					m_CurrentBoardSquare = currentButton;
-					swapButtonColour(currentButton);
+					m_CurrentWindowButton = currentButton;
+					swapButtonColor(currentButton);
 				}
 				catch (ArgumentException ex)
 				{
 					MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				}
 			}
-			else if (m_CurrentBoardSquare == currentButton)
+			else if (m_CurrentWindowButton == currentButton)
 			{
-				swapButtonColour(m_CurrentBoardSquare);
-				m_CurrentBoardSquare = null;
+				swapButtonColor(m_CurrentWindowButton);
+				m_CurrentWindowButton = null;
 			}
 			else
 			{
-				m_BoardSquareDestination = currentButton;
+				m_WindowButtonDestination = currentButton;
 				onPieceMove();
-				swapButtonColour(m_CurrentBoardSquare);
-				m_CurrentBoardSquare = null;
-				m_BoardSquareDestination = null;
+				swapButtonColor(m_CurrentWindowButton);
+				m_CurrentWindowButton = null;
+				m_WindowButtonDestination = null;
 			}
 		}
 
@@ -129,7 +140,7 @@ namespace B18Ex05.Checkers.View
 		{
 			try
 			{
-				UserMoveSelcted?.Invoke(m_CurrentBoardSquare.BoardLocation, m_BoardSquareDestination.BoardLocation);
+				UserMoveSelect?.Invoke(m_CurrentWindowButton.ButtonLocation, m_WindowButtonDestination.ButtonLocation);
 			}
 			catch (ArgumentException ex)
 			{
@@ -137,14 +148,35 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		private void swapButtonColour(GameBoardSquare i_CurrentBoardSquare)
+
+		public void onComputerGamePieceMove(Point i_Location, Point i_Destination)
 		{
-			i_CurrentBoardSquare.BackColor = i_CurrentBoardSquare.BackColor == Color.White ? Color.LightSkyBlue : Color.White;
+			GameWindowButton GameWindowButtonLocation = Controls[i_Location.ToString()] as GameWindowButton;
+			GameWindowButton GameWindowButtonDestination = Controls[i_Destination.ToString()] as GameWindowButton;
+
+			if(m_ComputerCurrentWindowButton != null && m_ComputerWindowButtonDestination != null)
+			{
+				swapButtonColor(m_ComputerWindowButtonDestination);
+				m_ComputerWindowButtonDestination = GameWindowButtonDestination;
+				swapButtonColor(m_ComputerWindowButtonDestination);
+			}
+			else
+			{
+				m_ComputerCurrentWindowButton = GameWindowButtonLocation;
+				m_ComputerWindowButtonDestination = GameWindowButtonDestination;
+				swapButtonColor(m_ComputerCurrentWindowButton);
+				swapButtonColor(m_ComputerWindowButtonDestination);
+			}
 		}
 
-		private void validateSelectedPiece(GameBoardSquare i_CurrentButton)
+		private void swapButtonColor(GameWindowButton i_CurrentWindowButton)
 		{
-			BoardSquareSelected?.Invoke(i_CurrentButton.BoardLocation);
+			i_CurrentWindowButton.BackColor = i_CurrentWindowButton.BackColor == Color.White ? Color.LightSkyBlue : Color.White;
+		}
+
+		private void validateSelectedPiece(GameWindowButton i_CurrentWindowButton)
+		{
+			WindowButtonSelect?.Invoke(i_CurrentWindowButton.ButtonLocation);
 		}
 
 		public void OnGameButtonCreated(Point i_Location, char i_Symbol)

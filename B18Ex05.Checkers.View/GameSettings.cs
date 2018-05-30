@@ -6,7 +6,7 @@ namespace B18Ex05.Checkers.View
 {
 	public partial class GameSettings : Form
 	{
-		private int m_PlayerSelectedBoardSize;
+		private int m_PlayerSelectedWindowSize;
 
 		public GameSettings()
 		{
@@ -18,14 +18,14 @@ namespace B18Ex05.Checkers.View
 		{
 			if (i_Sender is RadioButton radioButton && radioButton.Checked)
 			{
-				PlayerSelectedBoardSize = int.Parse(radioButton.Tag.ToString());
+				PlayerSelectedWindowSize = int.Parse(radioButton.Tag.ToString());
 			}
 		}
 
-		public int PlayerSelectedBoardSize
+		public int PlayerSelectedWindowSize
 		{
-			get { return m_PlayerSelectedBoardSize; }
-			set { m_PlayerSelectedBoardSize = value; }
+			get { return m_PlayerSelectedWindowSize; }
+			set { m_PlayerSelectedWindowSize = value; }
 		}
 
 		private void checkBoxPlayerTwo_CheckedChanged(object i_Sender, EventArgs i_EventArgs)

@@ -48,7 +48,7 @@
     <Compile Include="GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameBoardSquare.cs">
+    <Compile Include="GameWindowButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GameSettings.cs">

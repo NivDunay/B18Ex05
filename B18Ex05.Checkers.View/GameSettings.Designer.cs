@@ -37,7 +37,7 @@
 			this.lablePlayers = new System.Windows.Forms.Label();
 			this.lableBoardSize = new System.Windows.Forms.Label();
 			this.radioButton10X10 = new System.Windows.Forms.RadioButton();
-			this.m_RadioButton8X8 = new System.Windows.Forms.RadioButton();
+			this.radioButton8X8 = new System.Windows.Forms.RadioButton();
 			this.radioButton6X6 = new System.Windows.Forms.RadioButton();
 			this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
@@ -126,16 +126,16 @@
 			// 
 			// m_RadioButton8X8
 			// 
-			this.m_RadioButton8X8.AutoSize = true;
-			this.m_RadioButton8X8.Location = new System.Drawing.Point(77, 41);
-			this.m_RadioButton8X8.Name = "m_RadioButton8X8";
-			this.m_RadioButton8X8.Size = new System.Drawing.Size(48, 17);
-			this.m_RadioButton8X8.TabIndex = 11;
-			this.m_RadioButton8X8.TabStop = true;
-			this.m_RadioButton8X8.Tag = "8";
-			this.m_RadioButton8X8.Text = "8 x 8";
-			this.m_RadioButton8X8.UseVisualStyleBackColor = true;
-			this.m_RadioButton8X8.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
+			this.radioButton8X8.AutoSize = true;
+			this.radioButton8X8.Location = new System.Drawing.Point(77, 41);
+			this.radioButton8X8.Name = "m_RadioButton8X8";
+			this.radioButton8X8.Size = new System.Drawing.Size(48, 17);
+			this.radioButton8X8.TabIndex = 11;
+			this.radioButton8X8.TabStop = true;
+			this.radioButton8X8.Tag = "8";
+			this.radioButton8X8.Text = "8 x 8";
+			this.radioButton8X8.UseVisualStyleBackColor = true;
+			this.radioButton8X8.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
 			// radioButton6X6
 			// 
@@ -170,7 +170,7 @@
 			this.Controls.Add(this.lablePlayers);
 			this.Controls.Add(this.lableBoardSize);
 			this.Controls.Add(this.radioButton10X10);
-			this.Controls.Add(this.m_RadioButton8X8);
+			this.Controls.Add(this.radioButton8X8);
 			this.Controls.Add(this.radioButton6X6);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "GameSettings";
@@ -193,7 +193,7 @@
 		private System.Windows.Forms.Label lablePlayers;
 		private System.Windows.Forms.Label lableBoardSize;
 		private System.Windows.Forms.RadioButton radioButton10X10;
-		private System.Windows.Forms.RadioButton m_RadioButton8X8;
+		private System.Windows.Forms.RadioButton radioButton8X8;
 		private System.Windows.Forms.RadioButton radioButton6X6;
 		private System.Windows.Forms.ErrorProvider errorProvider;
 	}

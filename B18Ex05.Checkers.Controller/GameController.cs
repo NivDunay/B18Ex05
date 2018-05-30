@@ -97,11 +97,16 @@ namespace B18Ex05.Checkers.Controller
 			return isLegalMove;
 		}
 
+		private void PlayComputersCurrentTurn(Point i_Location, Point i_Destination)
+		{
+
+		}
+
 		private void doComputerTurn()
 		{
 			Random selectedMove = new Random();
 			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
-			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
+			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);	
 			r_Model.MakePlayerMove(randomGeneratedMove);
 			if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
 			{
@@ -147,7 +152,7 @@ namespace B18Ex05.Checkers.Controller
 			initializeEvents();
 			initializePlayerOne();
 			initializePlayerTwo(!r_View.IsPlayerTwoActive);
-			initializeBoard(r_View.GameBoardSize);
+			initializeBoard(r_View.GameWindowSize);
 		}
 
 		private void initializeEvents()
@@ -157,10 +162,11 @@ namespace B18Ex05.Checkers.Controller
 			r_Model.MakeKing += r_View.OnGameButtonChangeSymbol;
 			r_Model.PieceRemoved += r_View.OnGameButtonRemoved;
 			r_Model.PieceMoved += r_View.OnGameButtonMove;
+			r_Model.ComputerPieceMoved += r_View.onComputerGamePieceMove;
 			//Initialize View Events
 			r_View.ResetGame += resetGameData;
-			r_View.UserMoveSelcted += playCurrentTurn;
-			r_View.BoardSquareSelected += r_Model.ValidatePieceSelection;
+			r_View.UserMoveSelect += playCurrentTurn;
+			r_View.WindowButtonSelect += r_Model.ValidatePieceSelection;
 			//Initialize Controller Events
 			GameIsOver += r_View.OnGameOver;
 		}
