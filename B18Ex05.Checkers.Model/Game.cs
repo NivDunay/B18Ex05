@@ -265,9 +265,9 @@ namespace B18Ex05.Checkers.Model
 			return playerScore;
 		}
 
-		public void AddListnerToGamePieceCreated(GamePieceCreatedHandler i_HandlerToAdd)
+		public void AddListnerToGamePieceCreated(GamePieceCreated i_MethodToAdd)
 		{
-			m_Board.GamePieceCreated += i_HandlerToAdd;
+			m_Board.GamePieceCreated += i_MethodToAdd;
 		}
 
 		public void ValidatePieceSelection(Point i_Location)

@@ -185,13 +185,13 @@ namespace B18Ex05.Checkers.View
 
 		public void OnScoreChanged(string i_Player, string i_Score)
 		{
-			if (i_Player == labelPlayerOneName.Text)
+			if (i_Player + ":" == labelPlayerOneName.Text)
 			{
-				labelPlayerOneScore.Text = ": " + i_Score;
+				labelPlayerOneScore.Text = i_Score;
 			}
 			else
 			{
-				labelPlayerTwoScore.Text = ": " + i_Score;
+				labelPlayerTwoScore.Text = i_Score;
 			}
 		}
 

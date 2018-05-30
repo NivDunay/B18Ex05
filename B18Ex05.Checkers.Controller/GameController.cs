@@ -27,26 +27,21 @@ namespace B18Ex05.Checkers.Controller
 
 		private void playCurrentTurn(Point i_Location, Point i_Destination)
 		{
-			bool isLegalMove = false;
-			bool isEatingMove = false;
+			tryExecutePlayerAction(i_Location, i_Destination);
+
+			checkForContinuousEatingMoves();
+
+			checkIfComputerAndPlayItsTurn();
+		}
+
+		private void tryExecutePlayerAction(Point i_Location, Point i_Destination)
+		{
 			if (m_IsFirstMove)
 			{
 				r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			}
 
-			foreach (PieceMove pieceMove in r_Model.CurrentMoves)
-			{
-				if (pieceMove.Location == i_Location && pieceMove.Destination == i_Destination)
-				{
-					r_Model.MakePlayerMove(r_Model.CurrentMoves.IndexOf(pieceMove));
-					isLegalMove = true;
-					m_IsFirstMove = false;
-					break;
-				}
-				isEatingMove = isEatingMove || pieceMove.DoesEat;
-			}
-
-			if (!isLegalMove)
+			if (!validateAndExecuteSelectedMove(i_Location, i_Destination, out bool isEatingMove))
 			{
 				if (isEatingMove)
 				{
@@ -55,7 +50,19 @@ namespace B18Ex05.Checkers.Controller
 
 				throw new ArgumentException(string.Format("Illegal action! {0}Must move to an adjacent empty space!", Environment.NewLine));
 			}
+		}
 
+		private void checkIfComputerAndPlayItsTurn()
+		{
+			if (r_Model.IsCurrentPlayerComputer())
+			{
+				doComputerTurn();
+				onEndTurnActions();
+			}
+		}
+
+		private void checkForContinuousEatingMoves()
+		{
 			if (r_Model.WasPieceEaten)
 			{
 				if (!r_Model.FindPlayersContinuationMoves())
@@ -67,12 +74,27 @@ namespace B18Ex05.Checkers.Controller
 			{
 				onEndTurnActions();
 			}
+		}
 
-			if (r_Model.IsCurrentPlayerComputer())
+		private bool validateAndExecuteSelectedMove(Point i_Location, Point i_Destination, out bool o_IsEatingMove)
+		{
+			bool isLegalMove = false;
+			o_IsEatingMove = false;
+
+			foreach (PieceMove pieceMove in r_Model.CurrentMoves)
 			{
-				doComputerTurn();
-				onEndTurnActions();
+				if (pieceMove.Location == i_Location && pieceMove.Destination == i_Destination)
+				{
+					r_Model.MakePlayerMove(r_Model.CurrentMoves.IndexOf(pieceMove));
+					isLegalMove = true;
+					m_IsFirstMove = false;
+					break;
+				}
+
+				o_IsEatingMove = o_IsEatingMove || pieceMove.DoesEat;
 			}
+
+			return isLegalMove;
 		}
 
 		private void doComputerTurn()
@@ -122,10 +144,10 @@ namespace B18Ex05.Checkers.Controller
 
 		private void initializeGame()
 		{
+			initializeEvents();
 			initializePlayerOne();
 			initializePlayerTwo(!r_View.IsPlayerTwoActive);
 			initializeBoard(r_View.GameBoardSize);
-			initializeEvents();
 		}
 
 		private void initializeEvents()

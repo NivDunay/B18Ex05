@@ -3,14 +3,14 @@ using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
 {
-	public delegate void GamePieceCreatedHandler(Point i_Location, char i_Symbol);
+	public delegate void GamePieceCreated(Point i_Location, char i_Symbol);
 
 	internal class GameBoard
 	{
 		private readonly int r_BoardSize;
 		private readonly GamePiece[,] r_Board;
 
-		public event GamePieceCreatedHandler GamePieceCreated;
+		public event GamePieceCreated GamePieceCreated;
 
 		public GameBoard(int i_BoardSize)
 		{
