@@ -134,7 +134,7 @@ namespace B18Ex05.Checkers.View
 		{
 			foreach (GameWindowButton computerAction in m_ComputerLastActions)
 			{
-				swapButtonColor(computerAction);
+				computerAction.BackColor = Color.White;
 			}
 
 			m_ComputerLastActions.Clear();
@@ -178,7 +178,14 @@ namespace B18Ex05.Checkers.View
 
 		private void swapButtonColor(GameWindowButton i_CurrentWindowButton)
 		{
-			i_CurrentWindowButton.BackColor = i_CurrentWindowButton.BackColor == Color.White ? Color.LightSkyBlue : Color.White;
+			if (i_CurrentWindowButton.BackColor == Color.White)
+			{
+				i_CurrentWindowButton.BackColor = Color.LightSkyBlue;
+			}
+			else if (i_CurrentWindowButton.BackColor == Color.LightSkyBlue)
+			{
+				i_CurrentWindowButton.BackColor = Color.White;
+			}
 		}
 
 		private void validateSelectedPiece(GameWindowButton i_CurrentWindowButton)

@@ -130,7 +130,7 @@ namespace B18Ex05.Checkers.Model
 				m_WasPieceEaten = true;
 			}
 
-			if(IsCurrentPlayerComputer() == true)
+			if(IsCurrentPlayerComputer())
 			{
 				ComputerPieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			}

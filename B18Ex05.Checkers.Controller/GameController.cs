@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using B18Ex05.Checkers.Model;
@@ -97,20 +98,31 @@ namespace B18Ex05.Checkers.Controller
 			return isLegalMove;
 		}
 
-		private void doComputerTurn()
+		private void doComputerTurn() 
 		{
+			r_View.Update();
+			delay(300);
 			Random selectedMove = new Random();
 			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
-			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);	
+			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 			r_Model.MakePlayerMove(randomGeneratedMove);
 			if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
 			{
 				while (r_Model.FindPlayersContinuationMoves())
 				{
+					r_View.Update();
+					delay(300);
 					randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 					r_Model.MakePlayerMove(randomGeneratedMove);
 				}
 			}
+		}
+
+		private void delay(int i_MilliSeconds)
+		{
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
+			while (sw.ElapsedMilliseconds <= i_MilliSeconds) ;
 		}
 
 		private void onEndTurnActions()
