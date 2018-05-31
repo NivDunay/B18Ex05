@@ -11,6 +11,8 @@ namespace B18Ex05.Checkers.View
 
 	public delegate void GetMove(Point i_Location, Point i_Destination);
 
+    public delegate void PlayerTurnChange(string i_Player);
+
 	public partial class GameWindow : Form
 	{
 
@@ -21,7 +23,9 @@ namespace B18Ex05.Checkers.View
 		private GameWindowButton m_WindowButtonDestination;
 		private List<GameWindowButton> m_ComputerLastActions;
 
-		public event GetMove                 UserMoveSelect;
+        public event PlayerTurnChange ChangeNameOfPlayerTurn;
+
+        public event GetMove                 UserMoveSelect;
 
 		public event StartNewGame            ResetGame;
 
@@ -66,7 +70,8 @@ namespace B18Ex05.Checkers.View
 				createButtonMatrix();
 				InitializeComponent();
 				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
-				labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
+                OnPlayerTurnChange(PlayerOneName);
+                labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
 				labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
 				labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
 			}
@@ -124,6 +129,10 @@ namespace B18Ex05.Checkers.View
 			{
 				m_WindowButtonDestination = currentButton;
 				onPieceMove();
+                if(m_PlayerTwoActive)
+                {
+                    
+                }
 				swapButtonColor(m_CurrentWindowButton);
 				m_CurrentWindowButton = null;
 				m_WindowButtonDestination = null;
@@ -151,7 +160,6 @@ namespace B18Ex05.Checkers.View
 				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
-
 
 		public void onComputerGamePieceMove(Point i_Location, Point i_Destination)
 		{
@@ -240,6 +248,10 @@ namespace B18Ex05.Checkers.View
 				labelPlayerTwoScore.Text = i_Score;
 			}
 		}
-
-	}
+  
+        public void OnPlayerTurnChange(string i_Player)
+        {
+            labelPlayerTurnName.Text = i_Player + "'s Turn";
+        }
+    }
 }

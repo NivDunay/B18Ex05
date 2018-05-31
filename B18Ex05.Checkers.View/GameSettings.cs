@@ -16,9 +16,10 @@ namespace B18Ex05.Checkers.View
 
 		private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
 		{
-			if (i_Sender is RadioButton radioButton && radioButton.Checked)
+            RadioButton radioButtom = i_Sender as RadioButton;
+			if ((i_Sender is RadioButton) && (radioButtom.Checked))
 			{
-				PlayerSelectedWindowSize = int.Parse(radioButton.Tag.ToString());
+				PlayerSelectedWindowSize = int.Parse(radioButtom.Tag.ToString());
 			}
 		}
 
@@ -30,7 +31,8 @@ namespace B18Ex05.Checkers.View
 
 		private void checkBoxPlayerTwo_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
 		{
-			if (i_Sender is CheckBox checkBox && checkBox.Checked)
+            CheckBox checkBox = i_Sender as CheckBox;
+			if (i_Sender is CheckBox && checkBox.Checked)
 			{
 				removeText();
 			}

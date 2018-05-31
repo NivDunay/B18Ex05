@@ -42,7 +42,9 @@ namespace B18Ex05.Checkers.Controller
 				r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			}
 
-			if (!validateAndExecuteSelectedMove(i_Location, i_Destination, out bool isEatingMove))
+            bool isEatingMove;
+
+			if (!validateAndExecuteSelectedMove(i_Location, i_Destination, out isEatingMove))
 			{
 				if (isEatingMove)
 				{
@@ -100,6 +102,7 @@ namespace B18Ex05.Checkers.Controller
 
 		private void doComputerTurn() 
 		{
+            //ChangeNameOfPlayerTurn?.Invoke(r_View.PlayerTwoName);
 			r_View.Update();
 			delay(300);
 			Random selectedMove = new Random();
@@ -174,8 +177,9 @@ namespace B18Ex05.Checkers.Controller
 			r_View.ResetGame += resetGameData;
 			r_View.UserMoveSelect += playCurrentTurn;
 			r_View.WindowButtonSelect += r_Model.ValidatePieceSelection;
-			//Initialize Controller Events
-			GameIsOver += r_View.OnGameOver;
+            //r_View.ChangeNameOfPlayerTurn += 
+            //Initialize Controller Events
+            GameIsOver += r_View.OnGameOver;
 		}
 
 		private void initializePlayerOne()
