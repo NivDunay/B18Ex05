@@ -11,8 +11,6 @@ namespace B18Ex05.Checkers.View
 
 	public delegate void GetMove(Point i_Location, Point i_Destination);
 
-    public delegate void PlayerTurnChange(string i_Player);
-
 	public partial class GameWindow : Form
 	{
 
@@ -22,8 +20,6 @@ namespace B18Ex05.Checkers.View
 		private GameWindowButton m_CurrentWindowButton;
 		private GameWindowButton m_WindowButtonDestination;
 		private List<GameWindowButton> m_ComputerLastActions;
-
-        public event PlayerTurnChange ChangeNameOfPlayerTurn;
 
         public event GetMove                 UserMoveSelect;
 
@@ -129,10 +125,10 @@ namespace B18Ex05.Checkers.View
 			{
 				m_WindowButtonDestination = currentButton;
 				onPieceMove();
-                if(m_PlayerTwoActive)
-                {
-                    
-                }
+                //if(m_PlayerTwoActive)
+                //{
+                //    ChangeNameOfPlayerTurn?.Invoke()
+                //}
 				swapButtonColor(m_CurrentWindowButton);
 				m_CurrentWindowButton = null;
 				m_WindowButtonDestination = null;

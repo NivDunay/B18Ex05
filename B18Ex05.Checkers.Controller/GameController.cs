@@ -13,7 +13,11 @@ namespace B18Ex05.Checkers.Controller
 	{
 		private readonly GameWindow r_View = new GameWindow();
 		private readonly Game r_Model = new Game();
-		private bool m_IsFirstMove = true;
+        private Timer m_PCTurnTimer;
+        private const int TimerInterval = 1000;
+
+
+        private bool m_IsFirstMove = true;
 
 		public event GameOver GameIsOver;
 
@@ -32,8 +36,9 @@ namespace B18Ex05.Checkers.Controller
 
 			checkForContinuousEatingMoves();
 
-			checkIfComputerAndPlayItsTurn();
-		}
+            handlePCTurn();
+            //checkIfComputerAndPlayItsTurn();
+        }
 
 		private void tryExecutePlayerAction(Point i_Location, Point i_Destination)
 		{
@@ -55,7 +60,7 @@ namespace B18Ex05.Checkers.Controller
 			}
 		}
 
-		private void checkIfComputerAndPlayItsTurn()
+		private void checkIfComputerAndPlayItsTurn(object i_Sender, EventArgs e)
 		{
 			if (r_Model.IsCurrentPlayerComputer())
 			{
@@ -102,26 +107,26 @@ namespace B18Ex05.Checkers.Controller
 
 		private void doComputerTurn() 
 		{
-            //ChangeNameOfPlayerTurn?.Invoke(r_View.PlayerTwoName);
-			r_View.Update();
-			delay(300);
-			Random selectedMove = new Random();
-			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
+            //r_View.Update();
+            //delay(300);
+            Random selectedMove = new Random();
+            r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 			r_Model.MakePlayerMove(randomGeneratedMove);
 			if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
 			{
 				while (r_Model.FindPlayersContinuationMoves())
 				{
-					r_View.Update();
-					delay(300);
+					//r_View.Update();
+					//delay(300);
 					randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 					r_Model.MakePlayerMove(randomGeneratedMove);
 				}
 			}
-		}
+            m_PCTurnTimer.Stop();
+        }
 
-		private void delay(int i_MilliSeconds)
+        private void delay(int i_MilliSeconds)
 		{
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
@@ -163,9 +168,17 @@ namespace B18Ex05.Checkers.Controller
 			initializePlayerOne();
 			initializePlayerTwo(!r_View.IsPlayerTwoActive);
 			initializeBoard(r_View.GameWindowSize);
-		}
+            m_PCTurnTimer = new Timer();
+            m_PCTurnTimer.Interval = TimerInterval;
+            m_PCTurnTimer.Tick += new EventHandler(checkIfComputerAndPlayItsTurn);
+        }
 
-		private void initializeEvents()
+        private void handlePCTurn()
+        {
+            m_PCTurnTimer.Start();
+        }
+
+        private void initializeEvents()
 		{
 			//Initialize Model Events
 			r_Model.ChangeScore += r_View.OnScoreChanged;
@@ -173,6 +186,7 @@ namespace B18Ex05.Checkers.Controller
 			r_Model.PieceRemoved += r_View.OnGameButtonRemoved;
 			r_Model.PieceMoved += r_View.OnGameButtonMove;
 			r_Model.ComputerPieceMoved += r_View.onComputerGamePieceMove;
+            r_Model.ChagnePlayerTurn += r_View.OnPlayerTurnChange;
 			//Initialize View Events
 			r_View.ResetGame += resetGameData;
 			r_View.UserMoveSelect += playCurrentTurn;

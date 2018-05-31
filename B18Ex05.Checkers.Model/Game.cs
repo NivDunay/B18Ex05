@@ -12,7 +12,10 @@ namespace B18Ex05.Checkers.Model
 
 	public delegate void ScoreChanged(string i_Player, string i_Score);
 
-	public class Game
+    public delegate void PlayerTurnChanged(string i_Player);
+
+
+    public class Game
 	{
 		private const int k_KingScore = 4;
 		private const int k_PawnScore = 1;
@@ -23,6 +26,8 @@ namespace B18Ex05.Checkers.Model
 		private int m_PlayerTurn;
 		private GamePiece m_PieceToMove;
 		private bool m_WasPieceEaten;
+
+        public event PlayerTurnChanged ChagnePlayerTurn;
 
 		public event PieceWasRemoved PieceRemoved;
 
@@ -185,7 +190,8 @@ namespace B18Ex05.Checkers.Model
 			m_WasPieceEaten = false;
 			m_PieceToMove = null;
 			m_PlayerTurn = OtherPlayer();
-		}
+            ChagnePlayerTurn?.Invoke(GetPlayerName(m_PlayerTurn));
+        }
 
 		public int OtherPlayer()
 		{
