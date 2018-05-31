@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,9 +19,7 @@ namespace B18Ex05.Checkers.View
 		private GameSettings m_GameSettings;
 		private GameWindowButton m_CurrentWindowButton;
 		private GameWindowButton m_WindowButtonDestination;
-		private GameWindowButton m_ComputerCurrentWindowButton;
-		private GameWindowButton m_ComputerWindowButtonDestination;
-		private Timer m_MyTimer;
+		private List<GameWindowButton> m_ComputerLastActions;
 
 		public event GetMove                 UserMoveSelect;
 
@@ -57,10 +56,11 @@ namespace B18Ex05.Checkers.View
 
 		private void initializeGameWindow()
 		{
+			m_ComputerLastActions = new List<GameWindowButton>();
 			m_GameSettings = new GameSettings();
-			m_MyTimer = new Timer();
 			if (m_GameSettings.DialogResult == DialogResult.OK)
 			{
+
 				m_GameWindowSize = m_GameSettings.PlayerSelectedWindowSize;
 				m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
 				createButtonMatrix();
@@ -103,13 +103,7 @@ namespace B18Ex05.Checkers.View
 			GameWindowButton currentButton = i_Sender as GameWindowButton;
 			if (m_CurrentWindowButton == null)
 			{
-				if (m_ComputerCurrentWindowButton != null && m_ComputerWindowButtonDestination != null)
-				{
-					swapButtonColor(m_ComputerCurrentWindowButton);
-					swapButtonColor(m_ComputerWindowButtonDestination);
-					m_ComputerCurrentWindowButton = null;
-					m_ComputerWindowButtonDestination = null;
-				}
+				resetComputerActions();
 				try
 				{
 					validateSelectedPiece(currentButton);
@@ -136,6 +130,16 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
+		private void resetComputerActions()
+		{
+			foreach (GameWindowButton computerAction in m_ComputerLastActions)
+			{
+				swapButtonColor(computerAction);
+			}
+
+			m_ComputerLastActions.Clear();
+		}
+
 		private void onPieceMove()
 		{
 			try
@@ -151,21 +155,24 @@ namespace B18Ex05.Checkers.View
 
 		public void onComputerGamePieceMove(Point i_Location, Point i_Destination)
 		{
-			GameWindowButton GameWindowButtonLocation = Controls[i_Location.ToString()] as GameWindowButton;
-			GameWindowButton GameWindowButtonDestination = Controls[i_Destination.ToString()] as GameWindowButton;
+			checkIfGameWindoeButtonExistsAndAddToList(i_Location);
+			checkIfGameWindoeButtonExistsAndAddToList(i_Destination);
+			markComputerMovesOnScreen();
+		}
 
-			if(m_ComputerCurrentWindowButton != null && m_ComputerWindowButtonDestination != null)
+		private void markComputerMovesOnScreen()
+		{
+			foreach (GameWindowButton computerAction in m_ComputerLastActions)
 			{
-				swapButtonColor(m_ComputerWindowButtonDestination);
-				m_ComputerWindowButtonDestination = GameWindowButtonDestination;
-				swapButtonColor(m_ComputerWindowButtonDestination);
+				computerAction.BackColor = Color.DarkRed;
 			}
-			else
+		}
+
+		private void checkIfGameWindoeButtonExistsAndAddToList(Point i_ButtonLocation)
+		{
+			if (!m_ComputerLastActions.Contains(Controls[i_ButtonLocation.ToString()] as GameWindowButton))
 			{
-				m_ComputerCurrentWindowButton = GameWindowButtonLocation;
-				m_ComputerWindowButtonDestination = GameWindowButtonDestination;
-				swapButtonColor(m_ComputerCurrentWindowButton);
-				swapButtonColor(m_ComputerWindowButtonDestination);
+				m_ComputerLastActions.Add(Controls[i_ButtonLocation.ToString()] as GameWindowButton);
 			}
 		}
 

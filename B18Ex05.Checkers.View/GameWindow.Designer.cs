@@ -39,7 +39,7 @@
 			// 
 			this.labelPlayerOneName.AutoSize = true;
 			this.labelPlayerOneName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.labelPlayerOneName.Location = new System.Drawing.Point(33, 22);
+			this.labelPlayerOneName.Location = new System.Drawing.Point(13, 22);
 			this.labelPlayerOneName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelPlayerOneName.Name = "labelPlayerOneName";
 			this.labelPlayerOneName.Size = new System.Drawing.Size(73, 17);
@@ -52,7 +52,7 @@
 			this.labelPlayerTwoName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelPlayerTwoName.AutoSize = true;
 			this.labelPlayerTwoName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.labelPlayerTwoName.Location = new System.Drawing.Point(220, 22);
+			this.labelPlayerTwoName.Location = new System.Drawing.Point(124, 22);
 			this.labelPlayerTwoName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelPlayerTwoName.Name = "labelPlayerTwoName";
 			this.labelPlayerTwoName.Size = new System.Drawing.Size(73, 17);
@@ -63,8 +63,9 @@
 			// labelPlayerOneScore
 			// 
 			this.labelPlayerOneScore.AutoSize = true;
+			this.labelPlayerOneScore.BackColor = System.Drawing.SystemColors.Control;
 			this.labelPlayerOneScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.labelPlayerOneScore.Location = new System.Drawing.Point(105, 22);
+			this.labelPlayerOneScore.Location = new System.Drawing.Point(85, 22);
 			this.labelPlayerOneScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelPlayerOneScore.Name = "labelPlayerOneScore";
 			this.labelPlayerOneScore.Size = new System.Drawing.Size(17, 17);
@@ -77,7 +78,7 @@
 			this.labelPlayerTwoScore.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelPlayerTwoScore.AutoSize = true;
 			this.labelPlayerTwoScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.labelPlayerTwoScore.Location = new System.Drawing.Point(301, 22);
+			this.labelPlayerTwoScore.Location = new System.Drawing.Point(205, 22);
 			this.labelPlayerTwoScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.labelPlayerTwoScore.Name = "labelPlayerTwoScore";
 			this.labelPlayerTwoScore.Size = new System.Drawing.Size(17, 17);
@@ -90,14 +91,15 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
-			this.ClientSize = new System.Drawing.Size(407, 318);
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.ClientSize = new System.Drawing.Size(271, 318);
 			this.Controls.Add(this.labelPlayerOneScore);
 			this.Controls.Add(this.labelPlayerOneName);
 			this.Controls.Add(this.labelPlayerTwoScore);
 			this.Controls.Add(this.labelPlayerTwoName);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.MaximizeBox = false;
 			this.Name = "GameWindow";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

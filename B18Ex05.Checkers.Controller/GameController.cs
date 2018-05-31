@@ -97,11 +97,6 @@ namespace B18Ex05.Checkers.Controller
 			return isLegalMove;
 		}
 
-		private void PlayComputersCurrentTurn(Point i_Location, Point i_Destination)
-		{
-
-		}
-
 		private void doComputerTurn()
 		{
 			Random selectedMove = new Random();
