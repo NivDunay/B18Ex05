@@ -67,6 +67,7 @@ namespace B18Ex05.Checkers.View
 				InitializeComponent();
 				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
                 OnPlayerTurnChange(PlayerOneName);
+				ResetGame += OnResetGame;
                 labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
 				labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
 				labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
@@ -125,10 +126,6 @@ namespace B18Ex05.Checkers.View
 			{
 				m_WindowButtonDestination = currentButton;
 				onPieceMove();
-                //if(m_PlayerTwoActive)
-                //{
-                //    ChangeNameOfPlayerTurn?.Invoke()
-                //}
 				swapButtonColor(m_CurrentWindowButton);
 				m_CurrentWindowButton = null;
 				m_WindowButtonDestination = null;
@@ -233,6 +230,11 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
+		public void OnResetGame()
+		{
+			labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
+		}
+
 		public void OnScoreChanged(string i_Player, string i_Score)
 		{
 			if (i_Player + ":" == labelPlayerOneName.Text)
@@ -249,5 +251,10 @@ namespace B18Ex05.Checkers.View
         {
             labelPlayerTurnName.Text = i_Player + "'s Turn";
         }
-    }
+
+		private void labelPlayerTurnName_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

@@ -14,11 +14,7 @@ namespace B18Ex05.Checkers.Controller
 		private readonly GameWindow r_View = new GameWindow();
 		private readonly Game r_Model = new Game();
         private Timer m_PCTurnTimer;
-        private const int TimerInterval = 1000;
-
-
         private bool m_IsFirstMove = true;
-
 		public event GameOver GameIsOver;
 
 		public GameController()
@@ -107,8 +103,6 @@ namespace B18Ex05.Checkers.Controller
 
 		private void doComputerTurn() 
 		{
-            //r_View.Update();
-            //delay(300);
             Random selectedMove = new Random();
             r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
@@ -117,21 +111,12 @@ namespace B18Ex05.Checkers.Controller
 			{
 				while (r_Model.FindPlayersContinuationMoves())
 				{
-					//r_View.Update();
-					//delay(300);
 					randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 					r_Model.MakePlayerMove(randomGeneratedMove);
 				}
 			}
             m_PCTurnTimer.Stop();
         }
-
-        private void delay(int i_MilliSeconds)
-		{
-			Stopwatch sw = new Stopwatch();
-			sw.Start();
-			while (sw.ElapsedMilliseconds <= i_MilliSeconds) ;
-		}
 
 		private void onEndTurnActions()
 		{
@@ -169,7 +154,7 @@ namespace B18Ex05.Checkers.Controller
 			initializePlayerTwo(!r_View.IsPlayerTwoActive);
 			initializeBoard(r_View.GameWindowSize);
             m_PCTurnTimer = new Timer();
-            m_PCTurnTimer.Interval = TimerInterval;
+            m_PCTurnTimer.Interval = Constants.k_TimeInterval;
             m_PCTurnTimer.Tick += new EventHandler(checkIfComputerAndPlayItsTurn);
         }
 
@@ -191,7 +176,6 @@ namespace B18Ex05.Checkers.Controller
 			r_View.ResetGame += resetGameData;
 			r_View.UserMoveSelect += playCurrentTurn;
 			r_View.WindowButtonSelect += r_Model.ValidatePieceSelection;
-            //r_View.ChangeNameOfPlayerTurn += 
             //Initialize Controller Events
             GameIsOver += r_View.OnGameOver;
 		}
