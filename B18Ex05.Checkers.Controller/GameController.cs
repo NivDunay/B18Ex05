@@ -171,7 +171,8 @@ namespace B18Ex05.Checkers.Controller
 			r_Model.PieceRemoved += r_View.OnGameButtonRemoved;
 			r_Model.PieceMoved += r_View.OnGameButtonMove;
 			r_Model.ComputerPieceMoved += r_View.onComputerGamePieceMove;
-            r_Model.ChagnePlayerTurn += r_View.OnPlayerTurnChange;
+            //Due to Guy's order:
+			//r_Model.ChagnePlayerTurn += r_View.OnPlayerTurnChange;
 			//Initialize View Events
 			r_View.ResetGame += resetGameData;
 			r_View.UserMoveSelect += playCurrentTurn;

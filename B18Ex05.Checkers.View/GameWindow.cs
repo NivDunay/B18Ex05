@@ -66,8 +66,9 @@ namespace B18Ex05.Checkers.View
 				createButtonMatrix();
 				InitializeComponent();
 				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
-                OnPlayerTurnChange(PlayerOneName);
-				ResetGame += OnResetGame;
+				//Due to Guy's order:
+                //OnPlayerTurnChange(PlayerOneName);
+				//ResetGame += OnResetGame;
                 labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
 				labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
 				labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
@@ -230,10 +231,11 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		public void OnResetGame()
-		{
-			labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
-		}
+		//Due to Guy's order:
+		//public void OnResetGame()
+		//{
+		//	labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
+		//}
 
 		public void OnScoreChanged(string i_Player, string i_Score)
 		{
@@ -246,11 +248,12 @@ namespace B18Ex05.Checkers.View
 				labelPlayerTwoScore.Text = i_Score;
 			}
 		}
-  
-        public void OnPlayerTurnChange(string i_Player)
-        {
-            labelPlayerTurnName.Text = i_Player + "'s Turn";
-        }
+
+		//Due to Guy's order:
+		//public void OnResetGame()
+		//{
+		//	labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
+		//}
 
 		private void labelPlayerTurnName_Click(object sender, EventArgs e)
 		{

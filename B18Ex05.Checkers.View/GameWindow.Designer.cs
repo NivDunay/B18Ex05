@@ -33,7 +33,6 @@
 			this.labelPlayerTwoName = new System.Windows.Forms.Label();
 			this.labelPlayerOneScore = new System.Windows.Forms.Label();
 			this.labelPlayerTwoScore = new System.Windows.Forms.Label();
-			this.labelPlayerTurnName = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// labelPlayerOneName
@@ -87,19 +86,6 @@
 			this.labelPlayerTwoScore.Text = "0";
 			this.labelPlayerTwoScore.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
-			// labelPlayerTurnName
-			// 
-			this.labelPlayerTurnName.Dock = System.Windows.Forms.DockStyle.Top;
-			this.labelPlayerTurnName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-			this.labelPlayerTurnName.ForeColor = System.Drawing.Color.Red;
-			this.labelPlayerTurnName.Location = new System.Drawing.Point(0, 0);
-			this.labelPlayerTurnName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.labelPlayerTurnName.Name = "labelPlayerTurnName";
-			this.labelPlayerTurnName.Size = new System.Drawing.Size(271, 21);
-			this.labelPlayerTurnName.TabIndex = 4;
-			this.labelPlayerTurnName.Text = "labelPlayerTurnName";
-			this.labelPlayerTurnName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
 			// GameWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -107,7 +93,6 @@
 			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.ClientSize = new System.Drawing.Size(271, 318);
-			this.Controls.Add(this.labelPlayerTurnName);
 			this.Controls.Add(this.labelPlayerOneScore);
 			this.Controls.Add(this.labelPlayerOneName);
 			this.Controls.Add(this.labelPlayerTwoScore);
@@ -130,6 +115,5 @@
 		private System.Windows.Forms.Label labelPlayerTwoName;
 		private System.Windows.Forms.Label labelPlayerOneScore;
 		private System.Windows.Forms.Label labelPlayerTwoScore;
-        private System.Windows.Forms.Label labelPlayerTurnName;
     }
 }

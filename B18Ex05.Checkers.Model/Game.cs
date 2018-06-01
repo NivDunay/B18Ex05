@@ -11,8 +11,8 @@ namespace B18Ex05.Checkers.Model
 	public delegate void KingWasMade(Point i_Location, char i_Symbol);
 
 	public delegate void ScoreChanged(string i_Player, string i_Score);
-
-    public delegate void PlayerTurnChanged(string i_Player);
+	//Due to Guy's order:
+	//public delegate void PlayerTurnChanged(string i_Player);
 
 
     public class Game
@@ -27,7 +27,7 @@ namespace B18Ex05.Checkers.Model
 		private GamePiece m_PieceToMove;
 		private bool m_WasPieceEaten;
 
-        public event PlayerTurnChanged ChagnePlayerTurn;
+        //public event PlayerTurnChanged ChagnePlayerTurn;
 
 		public event PieceWasRemoved PieceRemoved;
 
@@ -190,7 +190,8 @@ namespace B18Ex05.Checkers.Model
 			m_WasPieceEaten = false;
 			m_PieceToMove = null;
 			m_PlayerTurn = OtherPlayer();
-            ChagnePlayerTurn?.Invoke(GetPlayerName(m_PlayerTurn));
+			//Due to Guy's order:
+            //ChagnePlayerTurn?.Invoke(GetPlayerName(m_PlayerTurn));
         }
 
 		public int OtherPlayer()
