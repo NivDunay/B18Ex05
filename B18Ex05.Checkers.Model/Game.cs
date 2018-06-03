@@ -4,40 +4,60 @@ using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
 {
-	public delegate void PieceWasRemoved(Point i_Location);
+	public delegate void PieceWasRemovedEventHandler(Point i_Location);
 
-	public delegate void PieceWasMoved(Point i_Location, Point i_Destination);
+	public delegate void PieceWasMovedEventHandler(Point i_Location, Point i_Destination);
 
-	public delegate void KingWasMade(Point i_Location, char i_Symbol);
+	public delegate void KingWasMadeEventHandler(Point i_Location, char i_Symbol);
 
-	public delegate void ScoreChanged(string i_Player, string i_Score);
-	//Due to Guy's order:
-	//public delegate void PlayerTurnChanged(string i_Player);
+	public delegate void PlayerScoreChangedEventHandler(string i_Player, string i_Score);
 
-
-    public class Game
+	public class Game
 	{
 		private const int k_KingScore = 4;
 		private const int k_PawnScore = 1;
 
-		private readonly Player[] r_Players = new Player[2];
-		private readonly List<PieceMove> r_CurrentTurnPossibleMoves = new List<PieceMove>(2);
-		private GameBoard m_Board;
-		private int m_PlayerTurn;
-		private GamePiece m_PieceToMove;
-		private bool m_WasPieceEaten;
+		private readonly	Player[]		r_Players = new Player[2];
+		private readonly	List<PieceMove> r_CurrentTurnPossibleMoves = new List<PieceMove>(2);
+		private				GameBoard		m_Board;
+		private				int				m_PlayerTurn;
+		private				GamePiece		m_PieceToMove;
+		private				bool			m_WasPieceEaten;
 
-        //public event PlayerTurnChanged ChagnePlayerTurn;
+		public event PieceWasRemovedEventHandler PieceRemoved;
 
-		public event PieceWasRemoved PieceRemoved;
+		public event PieceWasMovedEventHandler PieceMoved;
 
-		public event PieceWasMoved PieceMoved;
+		public event PieceWasMovedEventHandler ComputerPieceMoved;
 
-		public event PieceWasMoved ComputerPieceMoved;
+		public event KingWasMadeEventHandler KingMade;
 
-		public event KingWasMade MakeKing;
+		public event PlayerScoreChangedEventHandler PlayerScoreChanged;
 
-		public event ScoreChanged ChangeScore;
+		protected virtual void OnPieceRemoved(Point i_Location)
+		{
+			PieceRemoved?.Invoke(i_Location);
+		}
+
+		protected virtual void OnPieceMoved(Point i_Location, Point i_Destination)
+		{
+			PieceMoved?.Invoke(i_Location, i_Destination);
+		}
+
+		protected virtual void OnComputerPieceMoved(Point i_Location, Point i_Destination)
+		{
+			ComputerPieceMoved?.Invoke(i_Location, i_Destination);
+		}
+
+		protected virtual void OnKingMade(Point i_Location, char i_Symbol)
+		{
+			KingMade?.Invoke(i_Location, i_Symbol);
+		}
+
+		protected virtual void OnPlayerScoreChanged(string i_Player, string i_Score)
+		{
+			PlayerScoreChanged?.Invoke(i_Player, i_Score);
+		}
 
 		public bool IsCurrentPlayerComputer()
 		{
@@ -48,7 +68,7 @@ namespace B18Ex05.Checkers.Model
 		{
 			foreach (GamePiece currentPiece in i_Player.GamePieces)
 			{
-				PieceRemoved?.Invoke(currentPiece.Location);
+				OnPieceRemoved(currentPiece.Location);
 				m_Board.Board[currentPiece.Location.Y, currentPiece.Location.X] = null;
 			}
 
@@ -89,11 +109,6 @@ namespace B18Ex05.Checkers.Model
 			return r_Players[i_PlayerNumber].Name;
 		}
 
-		public char GetPlayerSymbol(int i_PlayerNumber)
-		{
-			return r_Players[i_PlayerNumber].GamePieceSymbol;
-		}
-
 		public bool FindPlayersFirstMoves(int i_PlayerNumber)
 		{
 			r_CurrentTurnPossibleMoves.Clear();
@@ -130,17 +145,15 @@ namespace B18Ex05.Checkers.Model
 			if (r_CurrentTurnPossibleMoves[i_PieceMoveIndex].DoesEat)
 			{
 				GamePiece eatenPiece = m_Board.FindEatenPiece(r_CurrentTurnPossibleMoves[i_PieceMoveIndex]);
-				PieceRemoved?.Invoke(eatenPiece.Location);
 				eatPiece(eatenPiece);
-				m_WasPieceEaten = true;
 			}
 
-			if(IsCurrentPlayerComputer())
+			if (IsCurrentPlayerComputer())
 			{
-				ComputerPieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
+				OnComputerPieceMoved(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			}
 
-			PieceMoved?.Invoke(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
+			OnPieceMoved(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Location, r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			movePiece(r_CurrentTurnPossibleMoves[i_PieceMoveIndex].Destination);
 			checkAndMakeKing();
 		}
@@ -169,7 +182,7 @@ namespace B18Ex05.Checkers.Model
 		private void doOnKingCreated()
 		{
 			m_PieceToMove.MakeKing();
-			MakeKing?.Invoke(m_PieceToMove.Location, m_PieceToMove.Symbol);
+			OnKingMade(m_PieceToMove.Location, m_PieceToMove.Symbol);
 		}
 
 		private void movePiece(Point i_Destination)
@@ -181,8 +194,10 @@ namespace B18Ex05.Checkers.Model
 
 		private void eatPiece(GamePiece i_EatenPiece)
 		{
+			OnPieceRemoved(i_EatenPiece.Location);
 			r_Players[OtherPlayer()].RemoveGamePiece(i_EatenPiece);
 			m_Board.Board[i_EatenPiece.Location.Y, i_EatenPiece.Location.X] = null;
+			m_WasPieceEaten = true;
 		}
 
 		public void EndTurn()
@@ -190,9 +205,7 @@ namespace B18Ex05.Checkers.Model
 			m_WasPieceEaten = false;
 			m_PieceToMove = null;
 			m_PlayerTurn = OtherPlayer();
-			//Due to Guy's order:
-            //ChagnePlayerTurn?.Invoke(GetPlayerName(m_PlayerTurn));
-        }
+		}
 
 		public int OtherPlayer()
 		{
@@ -207,11 +220,6 @@ namespace B18Ex05.Checkers.Model
 			}
 
 			return secondPlayer;
-		}
-
-		public int BoardSize
-		{
-			get { return m_Board.Size; }
 		}
 
 		public bool WasPieceEaten
@@ -240,25 +248,10 @@ namespace B18Ex05.Checkers.Model
 			m_Board = new GameBoard(i_BoardSize);
 		}
 
-		public char GetSymbol(Point i_Coordinates)
-		{
-			return m_Board.GetSymbol(i_Coordinates);
-		}
-
-		public uint GetPlayerNumberOfPieces(int i_PlayerNumber)
-		{
-			return (uint) r_Players[i_PlayerNumber].GamePieces.Count;
-		}
-
 		public void SetPlayerScore(uint i_Score, int i_PlayerNumber)
 		{
 			r_Players[i_PlayerNumber].Score += i_Score;
-			ChangeScore?.Invoke(GetPlayerName(i_PlayerNumber), r_Players[i_PlayerNumber].Score.ToString());
-		}
-
-		public uint GetPlayerScore(int i_PlayerNumber)
-		{
-			return r_Players[i_PlayerNumber].Score;
+			OnPlayerScoreChanged(GetPlayerName(i_PlayerNumber), r_Players[i_PlayerNumber].Score.ToString());
 		}
 
 		public uint CalculatePlayerScore(int i_PlayerNumber)
@@ -279,28 +272,30 @@ namespace B18Ex05.Checkers.Model
 			return playerScore;
 		}
 
-		public void AddListnerToGamePieceCreated(GamePieceCreated i_MethodToAdd)
+		public void AddListnerToGamePieceCreated(GamePieceCreatedEventHandler i_MethodToAdd)
 		{
 			m_Board.GamePieceCreated += i_MethodToAdd;
 		}
 
-		public void ValidatePieceSelection(Point i_Location)
+		public void gameWindow_ButtonSelected(Point i_Location)
 		{
-			if (m_Board.Board[i_Location.Y, i_Location.X] != null)
+			if (!IsCurrentPlayerComputer())
 			{
-				if (m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].GamePieceSymbol && m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].KingSymbol) 
+				if (m_Board.Board[i_Location.Y, i_Location.X] != null)
 				{
-					throw new ArgumentException(string.Format("Illegal selection! {0}Selected piece does not belong to you!{0}Please select [{1}/{2}] to move.", Environment.NewLine, r_Players[CurrentPlayerTurn].GamePieceSymbol, r_Players[CurrentPlayerTurn].KingSymbol));
+					if (m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].GamePieceSymbol && m_Board.Board[i_Location.Y, i_Location.X].Symbol != r_Players[CurrentPlayerTurn].KingSymbol)
+					{
+						throw new ArgumentException(string.Format("Illegal selection! {0}Selected piece does not belong to you!{0}Please select [{1}/{2}] to move.", Environment.NewLine, r_Players[CurrentPlayerTurn].GamePieceSymbol, r_Players[CurrentPlayerTurn].KingSymbol));
+					}
 				}
-				
-				if (IsCurrentPlayerComputer())
+				else
 				{
-					throw new ArgumentException("Illegal selection! You interrupt the normal operation of the computer!");
+					throw new ArgumentException(string.Format("Illegal selection! {0}Cannot select an empty square!", Environment.NewLine));
 				}
 			}
 			else
 			{
-				throw new ArgumentException(string.Format("Illegal selection! {0}Cannot select an empty square!", Environment.NewLine));
+				throw new ArgumentException(string.Format("Illegal selection! {0}You are interrupting the normal operation of the computer!", Environment.NewLine));
 			}
 		}
 	}

@@ -5,15 +5,14 @@ using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
-	public delegate void GameWindowButtonSelected(Point i_Location);
+	public delegate void GameWindowButtonSelectedEventHandler(Point i_Location);
 
-	public delegate void StartNewGame();
+	public delegate void StartNewGameEventHandler();
 
-	public delegate void GetMove(Point i_Location, Point i_Destination);
+	public delegate void GetMoveEventHandler(Point i_Location, Point i_Destination);
 
 	public partial class GameWindow : Form
 	{
-
 		private int m_GameWindowSize;
 		private bool m_PlayerTwoActive;
 		private GameSettings m_GameSettings;
@@ -21,11 +20,11 @@ namespace B18Ex05.Checkers.View
 		private GameWindowButton m_WindowButtonDestination;
 		private List<GameWindowButton> m_ComputerLastActions;
 
-        public event GetMove                 UserMoveSelect;
+		public event GetMoveEventHandler UserMoveSelect;
 
-		public event StartNewGame            ResetGame;
+		public event StartNewGameEventHandler ResetGame;
 
-		public event GameWindowButtonSelected WindowButtonSelect;
+		public event GameWindowButtonSelectedEventHandler WindowButtonSelect;
 
 		public GameWindow()
 		{
@@ -60,18 +59,14 @@ namespace B18Ex05.Checkers.View
 			m_GameSettings = new GameSettings();
 			if (m_GameSettings.DialogResult == DialogResult.OK)
 			{
-
 				m_GameWindowSize = m_GameSettings.PlayerSelectedWindowSize;
 				m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
 				createButtonMatrix();
 				InitializeComponent();
 				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
-				//Due to Guy's order:
-                //OnPlayerTurnChange(PlayerOneName);
-				//ResetGame += OnResetGame;
-                labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
-				labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
-				labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
+				labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
+				labelPlayerOneScore.Left = labelPlayerOneName.Right    + 5;
+				labelPlayerTwoScore.Left = labelPlayerTwoName.Right    + 5;
 			}
 			else
 			{
@@ -87,14 +82,14 @@ namespace B18Ex05.Checkers.View
 				for (int col = 0; col < m_GameWindowSize; col++)
 				{
 					GameWindowButton currentSquare = new GameWindowButton(new Point(col, row));
-					if (row % 2 == 0 && col % 2 == 0 || row % 2 == 1 && col % 2 == 1)
+					if ((row % 2 == 0 && col % 2 == 0) || (row % 2 == 1 && col % 2 == 1))
 					{
 						currentSquare.Enabled = false;
 						currentSquare.BackColor = Color.Gray;
 					}
 
-					currentSquare.Top = row  * Constants.k_ButtonHeight + Constants.k_ButtonStartY;
-					currentSquare.Left = col * Constants.k_ButtonWidth  + Constants.k_ButtonStartX;
+					currentSquare.Top = (row  * Constants.k_ButtonHeight) + Constants.k_ButtonStartY;
+					currentSquare.Left = (col * Constants.k_ButtonWidth)  + Constants.k_ButtonStartX;
 					currentSquare.Click += gameWindowButton_ButtonClicked;
 					Controls.Add(currentSquare);
 				}
@@ -107,30 +102,45 @@ namespace B18Ex05.Checkers.View
 			if (m_CurrentWindowButton == null)
 			{
 				resetComputerActions();
-				try
-				{
-					validateSelectedPiece(currentButton);
-					m_CurrentWindowButton = currentButton;
-					swapButtonColor(currentButton);
-				}
-				catch (ArgumentException ex)
-				{
-					MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				}
+				tryMakePlayerSelection(currentButton);
 			}
 			else if (m_CurrentWindowButton == currentButton)
 			{
-				swapButtonColor(m_CurrentWindowButton);
-				m_CurrentWindowButton = null;
+				undoPlayerSelection();
 			}
 			else
 			{
-				m_WindowButtonDestination = currentButton;
-				onPieceMove();
-				swapButtonColor(m_CurrentWindowButton);
-				m_CurrentWindowButton = null;
-				m_WindowButtonDestination = null;
+				tryMakePlayerMove(currentButton);
 			}
+		}
+
+		private void undoPlayerSelection()
+		{
+			swapButtonColor(m_CurrentWindowButton);
+			m_CurrentWindowButton = null;
+		}
+
+		private void tryMakePlayerSelection(GameWindowButton i_CurrentButton)
+		{
+			try
+			{
+				OnWindowButtonSelected(i_CurrentButton);
+				m_CurrentWindowButton = i_CurrentButton;
+				swapButtonColor(i_CurrentButton);
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+			}
+		}
+
+		private void tryMakePlayerMove(GameWindowButton i_CurrentButton)
+		{
+			m_WindowButtonDestination = i_CurrentButton;
+			onPieceMove();
+			swapButtonColor(m_CurrentWindowButton);
+			m_CurrentWindowButton = null;
+			m_WindowButtonDestination = null;
 		}
 
 		private void resetComputerActions()
@@ -147,7 +157,7 @@ namespace B18Ex05.Checkers.View
 		{
 			try
 			{
-				UserMoveSelect?.Invoke(m_CurrentWindowButton.ButtonLocation, m_WindowButtonDestination.ButtonLocation);
+				OnUserMoveSelected();
 			}
 			catch (ArgumentException ex)
 			{
@@ -155,7 +165,12 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		public void onComputerGamePieceMove(Point i_Location, Point i_Destination)
+		protected virtual void OnUserMoveSelected()
+		{
+			UserMoveSelect?.Invoke(m_CurrentWindowButton.ButtonLocation, m_WindowButtonDestination.ButtonLocation);
+		}
+
+		public void Game_ComputerPieceMoved(Point i_Location, Point i_Destination)
 		{
 			checkIfGameWindoeButtonExistsAndAddToList(i_Location);
 			checkIfGameWindoeButtonExistsAndAddToList(i_Destination);
@@ -190,39 +205,39 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		private void validateSelectedPiece(GameWindowButton i_CurrentWindowButton)
+		protected virtual void OnWindowButtonSelected(GameWindowButton i_CurrentWindowButton)
 		{
 			WindowButtonSelect?.Invoke(i_CurrentWindowButton.ButtonLocation);
 		}
 
-		public void OnGameButtonCreated(Point i_Location, char i_Symbol)
+		public void Game_PieceCreated(Point i_Location, char i_Symbol)
 		{
 			Controls[i_Location.ToString()].Text = i_Symbol.ToString();
 		}
 
-		public void OnGameButtonMove(Point i_Location, Point i_Destination)
+		public void Game_PieceMoved(Point i_Location, Point i_Destination)
 		{
 			Controls[i_Destination.ToString()].Text = Controls[i_Location.ToString()].Text;
 			Controls[i_Location.ToString()].Text = string.Empty;
 		}
 
-		public void OnGameButtonRemoved(Point i_Location)
+		public void Game_PieceRemoved(Point i_Location)
 		{
 			Controls[i_Location.ToString()].Text = string.Empty;
 		}
 
-		public void OnGameButtonChangeSymbol(Point i_Location, char i_Symbol)
+		public void Game_PieceMadeKing(Point i_Location, char i_Symbol)
 		{
 			Controls[i_Location.ToString()].Text = i_Symbol.ToString();
 		}
 
-		public void OnGameOver(string i_PlayerName)
+		public void Game_GameOver(string i_WinnerName)
 		{
-			string gameResult = i_PlayerName != null ? i_PlayerName + " Won" : " Tie";
+			string gameResult = i_WinnerName != null ? i_WinnerName + " Won" : " Tie";
 			DialogResult result = MessageBox.Show(string.Format("{0}! {1}Another Round?", gameResult, Environment.NewLine), "Game Over", MessageBoxButtons.YesNo);
 			if (result == DialogResult.Yes)
 			{
-				ResetGame?.Invoke();
+				OnResetGame();
 			}
 			else
 			{
@@ -231,13 +246,12 @@ namespace B18Ex05.Checkers.View
 			}
 		}
 
-		//Due to Guy's order:
-		//public void OnResetGame()
-		//{
-		//	labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
-		//}
+		protected virtual void OnResetGame()
+		{
+			ResetGame?.Invoke();
+		}
 
-		public void OnScoreChanged(string i_Player, string i_Score)
+		public void Game_PlayerScoreChanged(string i_Player, string i_Score)
 		{
 			if (i_Player + ":" == labelPlayerOneName.Text)
 			{
@@ -247,17 +261,6 @@ namespace B18Ex05.Checkers.View
 			{
 				labelPlayerTwoScore.Text = i_Score;
 			}
-		}
-
-		//Due to Guy's order:
-		//public void OnResetGame()
-		//{
-		//	labelPlayerTurnName.Text = PlayerOneName + "'s Turn";
-		//}
-
-		private void labelPlayerTurnName_Click(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

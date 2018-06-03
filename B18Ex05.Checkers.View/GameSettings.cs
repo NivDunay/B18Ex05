@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace B18Ex05.Checkers.View
 {
-	public partial class GameSettings : Form
+	internal partial class GameSettings : Form
 	{
 		private int m_PlayerSelectedWindowSize;
 
@@ -16,8 +16,8 @@ namespace B18Ex05.Checkers.View
 
 		private void radioButton_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
 		{
-            RadioButton radioButtom = i_Sender as RadioButton;
-			if ((i_Sender is RadioButton) && (radioButtom.Checked))
+			RadioButton radioButtom = i_Sender as RadioButton;
+			if (i_Sender is RadioButton && radioButtom.Checked)
 			{
 				PlayerSelectedWindowSize = int.Parse(radioButtom.Tag.ToString());
 			}
@@ -31,7 +31,7 @@ namespace B18Ex05.Checkers.View
 
 		private void checkBoxPlayerTwo_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
 		{
-            CheckBox checkBox = i_Sender as CheckBox;
+			CheckBox checkBox = i_Sender as CheckBox;
 			if (i_Sender is CheckBox && checkBox.Checked)
 			{
 				removeText();

@@ -6,7 +6,6 @@
 		public const int k_ButtonWidth = 50;
 		public const int k_ButtonStartX = 3;
 		public const int k_ButtonStartY = 50;
-		public const int k_LabelStartY = 20;
-		public const int k_TimeInterval = 1000;
+		public const int k_MillisecondsTimeInterval = 1000;
 	}
 }

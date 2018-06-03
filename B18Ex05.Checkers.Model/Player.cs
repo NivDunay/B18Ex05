@@ -4,13 +4,13 @@ namespace B18Ex05.Checkers.Model
 {
 	internal class Player
 	{
-		private readonly string r_Name;
-		private readonly char r_GamePieceSymbol;
-		private readonly char r_KingSymbol;
-		private readonly eDirection r_Direction;
-		private readonly bool r_IsComputer;
-		private readonly List<GamePiece> r_GamePieces = new List<GamePiece>();
-		private uint m_Score;
+		private readonly	string			r_Name;
+		private readonly	char			r_GamePieceSymbol;
+		private readonly	char			r_KingSymbol;
+		private readonly	eDirection		r_Direction;
+		private readonly	bool			r_IsComputer;
+		private readonly	List<GamePiece> r_GamePieces = new List<GamePiece>();
+		private				uint			m_Score;
 
 		internal enum eDirection
 		{

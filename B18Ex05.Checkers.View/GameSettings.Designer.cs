@@ -1,6 +1,6 @@
 ﻿namespace B18Ex05.Checkers.View
 {
-	partial class GameSettings
+	internal partial class GameSettings
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -17,6 +17,7 @@
 			{
 				components.Dispose();
 			}
+
 			base.Dispose(disposing);
 		}
 

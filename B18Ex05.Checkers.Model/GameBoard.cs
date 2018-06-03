@@ -3,14 +3,14 @@ using System.Drawing;
 
 namespace B18Ex05.Checkers.Model
 {
-	public delegate void GamePieceCreated(Point i_Location, char i_Symbol);
+	public delegate void GamePieceCreatedEventHandler(Point i_Location, char i_Symbol);
 
 	internal class GameBoard
 	{
-		private readonly int r_BoardSize;
-		private readonly GamePiece[,] r_Board;
+		private readonly int			r_BoardSize;
+		private readonly GamePiece[,]	r_Board;
 
-		public event GamePieceCreated GamePieceCreated;
+		public event GamePieceCreatedEventHandler GamePieceCreated;
 
 		public GameBoard(int i_BoardSize)
 		{
@@ -145,9 +145,9 @@ namespace B18Ex05.Checkers.Model
 
 		public void InitializeBoard(Player i_PlayerOne, Player i_PlayerTwo)
 		{
-			int howManyRows = r_BoardSize / 2 - 1;
+			int howManyRows = (r_BoardSize / 2) - 1;
 			initializePlayerPieces(i_PlayerOne, 0, howManyRows);
-			initializePlayerPieces(i_PlayerTwo, r_BoardSize / 2 + 1, howManyRows);
+			initializePlayerPieces(i_PlayerTwo, (r_BoardSize / 2) + 1, howManyRows);
 		}
 
 		private void initializePlayerPieces(Player i_Player, int i_StartingRow, int i_HowManyRows)
@@ -158,12 +158,12 @@ namespace B18Ex05.Checkers.Model
 				for (; currentCol < r_BoardSize; currentCol += 2)
 				{
 					r_Board[currentRow, currentCol] = new GamePiece(i_Player, new Point(currentCol, currentRow));
-					onGamePieceCreated(r_Board[currentRow, currentCol]);
+					OnGamePieceCreated(r_Board[currentRow, currentCol]);
 				}
 			}
 		}
 
-		protected virtual void onGamePieceCreated(GamePiece i_NewGamePiece)
+		protected virtual void OnGamePieceCreated(GamePiece i_NewGamePiece)
 		{
 			GamePieceCreated?.Invoke(i_NewGamePiece.Location, i_NewGamePiece.Symbol);
 		}
@@ -176,17 +176,6 @@ namespace B18Ex05.Checkers.Model
 		public GamePiece[,] Board
 		{
 			get { return r_Board; }
-		}
-
-		public char GetSymbol(Point i_Coordinates)
-		{
-			char symbol = ' ';
-			if (r_Board[i_Coordinates.X, i_Coordinates.Y] != null)
-			{
-				symbol = r_Board[i_Coordinates.X, i_Coordinates.Y].Symbol;
-			}
-
-			return symbol;
 		}
 	}
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using B18Ex05.Checkers.Model;
@@ -7,15 +6,16 @@ using B18Ex05.Checkers.View;
 
 namespace B18Ex05.Checkers.Controller
 {
-	public delegate void GameOver(string i_PlayerName);
+	public delegate void GameOverEventHandler(string i_WinnerName);
 
 	public class GameController
 	{
-		private readonly GameWindow r_View = new GameWindow();
-		private readonly Game r_Model = new Game();
-        private Timer m_PCTurnTimer;
-        private bool m_IsFirstMove = true;
-		public event GameOver GameIsOver;
+		private readonly	GameWindow	r_View = new GameWindow();
+		private readonly	Game		r_Model = new Game();
+		private				Timer		m_ComputerTurnTimer;
+		private				bool		m_IsFirstMove = true;
+
+		public event GameOverEventHandler GameIsOver;
 
 		public GameController()
 		{
@@ -26,15 +26,12 @@ namespace B18Ex05.Checkers.Controller
 			}
 		}
 
-		private void playCurrentTurn(Point i_Location, Point i_Destination)
+		private void gameWindow_UserMoveSelected(Point i_Location, Point i_Destination)
 		{
 			tryExecutePlayerAction(i_Location, i_Destination);
-
 			checkForContinuousEatingMoves();
-
-            handlePCTurn();
-            //checkIfComputerAndPlayItsTurn();
-        }
+			handleComputerTurn();
+		}
 
 		private void tryExecutePlayerAction(Point i_Location, Point i_Destination)
 		{
@@ -43,9 +40,7 @@ namespace B18Ex05.Checkers.Controller
 				r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			}
 
-            bool isEatingMove;
-
-			if (!validateAndExecuteSelectedMove(i_Location, i_Destination, out isEatingMove))
+			if (!validateAndExecuteSelectedMove(i_Location, i_Destination, out bool isEatingMove))
 			{
 				if (isEatingMove)
 				{
@@ -56,7 +51,7 @@ namespace B18Ex05.Checkers.Controller
 			}
 		}
 
-		private void checkIfComputerAndPlayItsTurn(object i_Sender, EventArgs e)
+		private void checkIfComputerAndPlayItsTurn(object i_Sender, EventArgs i_EventArgs)
 		{
 			if (r_Model.IsCurrentPlayerComputer())
 			{
@@ -84,7 +79,6 @@ namespace B18Ex05.Checkers.Controller
 		{
 			bool isLegalMove = false;
 			o_IsEatingMove = false;
-
 			foreach (PieceMove pieceMove in r_Model.CurrentMoves)
 			{
 				if (pieceMove.Location == i_Location && pieceMove.Destination == i_Destination)
@@ -101,10 +95,10 @@ namespace B18Ex05.Checkers.Controller
 			return isLegalMove;
 		}
 
-		private void doComputerTurn() 
+		private void doComputerTurn()
 		{
-            Random selectedMove = new Random();
-            r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
+			Random selectedMove = new Random();
+			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
 			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
 			r_Model.MakePlayerMove(randomGeneratedMove);
 			if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
@@ -115,8 +109,9 @@ namespace B18Ex05.Checkers.Controller
 					r_Model.MakePlayerMove(randomGeneratedMove);
 				}
 			}
-            m_PCTurnTimer.Stop();
-        }
+
+			m_ComputerTurnTimer.Stop();
+		}
 
 		private void onEndTurnActions()
 		{
@@ -131,9 +126,14 @@ namespace B18Ex05.Checkers.Controller
 					r_Model.SetPlayerScore(winnerScore, r_Model.OtherPlayer());
 				}
 
-				GameIsOver?.Invoke(r_Model.GetPlayerName(r_Model.OtherPlayer()));
-				resetGameData();
+				OnGameIsOver(r_Model.GetPlayerName(r_Model.OtherPlayer()));
+				gameWindow_ResetGame();
 			}
+		}
+
+		protected virtual void OnGameIsOver(string i_WinnerName)
+		{
+			GameIsOver?.Invoke(i_WinnerName);
 		}
 
 		private string checkWhoTheWinnerIs()
@@ -142,7 +142,7 @@ namespace B18Ex05.Checkers.Controller
 			return winner;
 		}
 
-		private void resetGameData()
+		private void gameWindow_ResetGame()
 		{
 			r_Model.ResetGameData();
 		}
@@ -153,32 +153,32 @@ namespace B18Ex05.Checkers.Controller
 			initializePlayerOne();
 			initializePlayerTwo(!r_View.IsPlayerTwoActive);
 			initializeBoard(r_View.GameWindowSize);
-            m_PCTurnTimer = new Timer();
-            m_PCTurnTimer.Interval = Constants.k_TimeInterval;
-            m_PCTurnTimer.Tick += new EventHandler(checkIfComputerAndPlayItsTurn);
-        }
+			m_ComputerTurnTimer = new Timer();
+			m_ComputerTurnTimer.Interval = Constants.k_MillisecondsTimeInterval;
+			m_ComputerTurnTimer.Tick += checkIfComputerAndPlayItsTurn;
+		}
 
-        private void handlePCTurn()
-        {
-            m_PCTurnTimer.Start();
-        }
-
-        private void initializeEvents()
+		private void handleComputerTurn()
 		{
-			//Initialize Model Events
-			r_Model.ChangeScore += r_View.OnScoreChanged;
-			r_Model.MakeKing += r_View.OnGameButtonChangeSymbol;
-			r_Model.PieceRemoved += r_View.OnGameButtonRemoved;
-			r_Model.PieceMoved += r_View.OnGameButtonMove;
-			r_Model.ComputerPieceMoved += r_View.onComputerGamePieceMove;
-            //Due to Guy's order:
-			//r_Model.ChagnePlayerTurn += r_View.OnPlayerTurnChange;
-			//Initialize View Events
-			r_View.ResetGame += resetGameData;
-			r_View.UserMoveSelect += playCurrentTurn;
-			r_View.WindowButtonSelect += r_Model.ValidatePieceSelection;
-            //Initialize Controller Events
-            GameIsOver += r_View.OnGameOver;
+			m_ComputerTurnTimer.Start();
+		}
+
+		private void initializeEvents()
+		{
+			// Initialize Model Events
+			r_Model.PlayerScoreChanged += r_View.Game_PlayerScoreChanged;
+			r_Model.KingMade += r_View.Game_PieceMadeKing;
+			r_Model.PieceRemoved += r_View.Game_PieceRemoved;
+			r_Model.PieceMoved += r_View.Game_PieceMoved;
+			r_Model.ComputerPieceMoved += r_View.Game_ComputerPieceMoved;
+
+			// Initialize View Events
+			r_View.ResetGame += gameWindow_ResetGame;
+			r_View.UserMoveSelect += gameWindow_UserMoveSelected;
+			r_View.WindowButtonSelect += r_Model.gameWindow_ButtonSelected;
+
+			// Initialize Controller Events
+			GameIsOver += r_View.Game_GameOver;
 		}
 
 		private void initializePlayerOne()
@@ -194,7 +194,7 @@ namespace B18Ex05.Checkers.Controller
 		private void initializeBoard(int i_GameBoardSize)
 		{
 			r_Model.CreateGameBoard(i_GameBoardSize);
-			r_Model.AddListnerToGamePieceCreated(r_View.OnGameButtonCreated);
+			r_Model.AddListnerToGamePieceCreated(r_View.Game_PieceCreated);
 			r_Model.InitializeBoard();
 		}
 	}
