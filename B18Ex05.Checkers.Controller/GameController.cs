@@ -30,7 +30,6 @@ namespace B18Ex05.Checkers.Controller
 		{
 			tryExecutePlayerAction(i_Location, i_Destination);
 			checkForContinuousEatingMoves();
-			handleComputerTurn();
 		}
 
 		private void tryExecutePlayerAction(Point i_Location, Point i_Destination)
@@ -51,13 +50,10 @@ namespace B18Ex05.Checkers.Controller
 			}
 		}
 
-		private void checkIfComputerAndPlayItsTurn(object i_Sender, EventArgs i_EventArgs)
+		private void onComputerTurn(object i_Sender, EventArgs i_EventArgs)
 		{
-			if (r_Model.IsCurrentPlayerComputer())
-			{
-				doComputerTurn();
-				onEndTurnActions();
-			}
+			doComputerTurn();
+			onEndTurnActions();
 		}
 
 		private void checkForContinuousEatingMoves()
@@ -98,6 +94,8 @@ namespace B18Ex05.Checkers.Controller
 		private void doComputerTurn()
 		{
 			Random selectedMove = new Random();
+
+			m_ComputerTurnTimer.Stop();
 			if (r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn))
 			{
 				int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
@@ -111,7 +109,6 @@ namespace B18Ex05.Checkers.Controller
 					}
 				}
 			}
-			m_ComputerTurnTimer.Stop();
 		}
 
 		private void onEndTurnActions()
@@ -129,6 +126,10 @@ namespace B18Ex05.Checkers.Controller
 
 				OnGameIsOver(r_Model.GetPlayerName(r_Model.OtherPlayer()));
 				gameWindow_ResetGame();
+			}
+			else
+			{
+				handleComputerTurn();
 			}
 		}
 
@@ -156,12 +157,15 @@ namespace B18Ex05.Checkers.Controller
 			initializeBoard(r_View.GameWindowSize);
 			m_ComputerTurnTimer = new Timer();
 			m_ComputerTurnTimer.Interval = Constants.k_MillisecondsTimeInterval;
-			m_ComputerTurnTimer.Tick += checkIfComputerAndPlayItsTurn;
+			m_ComputerTurnTimer.Tick += onComputerTurn;
 		}
 
 		private void handleComputerTurn()
 		{
-			m_ComputerTurnTimer.Start();
+			if (r_Model.IsCurrentPlayerComputer())
+			{
+				m_ComputerTurnTimer.Start();
+			}
 		}
 
 		private void initializeEvents()
