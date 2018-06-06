@@ -63,6 +63,7 @@ namespace B18Ex05.Checkers.View
 				m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
 				createButtonMatrix();
 				InitializeComponent();
+				ResetGame += resetComputerActions;
 				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
 				labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
 				labelPlayerOneScore.Left = labelPlayerOneName.Right    + 5;

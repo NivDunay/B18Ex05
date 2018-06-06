@@ -98,18 +98,19 @@ namespace B18Ex05.Checkers.Controller
 		private void doComputerTurn()
 		{
 			Random selectedMove = new Random();
-			r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn);
-			int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
-			r_Model.MakePlayerMove(randomGeneratedMove);
-			if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
+			if (r_Model.FindPlayersFirstMoves(r_Model.CurrentPlayerTurn))
 			{
-				while (r_Model.FindPlayersContinuationMoves())
+				int randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
+				r_Model.MakePlayerMove(randomGeneratedMove);
+				if (r_Model.CurrentMoves[randomGeneratedMove].DoesEat)
 				{
-					randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
-					r_Model.MakePlayerMove(randomGeneratedMove);
+					while (r_Model.FindPlayersContinuationMoves())
+					{
+						randomGeneratedMove = selectedMove.Next(0, r_Model.CurrentMoves.Count - 1);
+						r_Model.MakePlayerMove(randomGeneratedMove);
+					}
 				}
 			}
-
 			m_ComputerTurnTimer.Stop();
 		}
 
