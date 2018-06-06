@@ -125,11 +125,11 @@
 			this.radioButton10X10.UseVisualStyleBackColor = true;
 			this.radioButton10X10.CheckedChanged += new System.EventHandler(this.radioButton_CheckedChanged);
 			// 
-			// m_RadioButton8X8
+			// radioButton8X8
 			// 
 			this.radioButton8X8.AutoSize = true;
 			this.radioButton8X8.Location = new System.Drawing.Point(77, 41);
-			this.radioButton8X8.Name = "m_RadioButton8X8";
+			this.radioButton8X8.Name = "radioButton8X8";
 			this.radioButton8X8.Size = new System.Drawing.Size(48, 17);
 			this.radioButton8X8.TabIndex = 11;
 			this.radioButton8X8.TabStop = true;
@@ -178,6 +178,7 @@
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Settings";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.gameSettings_FormClosed);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

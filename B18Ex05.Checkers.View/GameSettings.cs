@@ -26,7 +26,7 @@ namespace B18Ex05.Checkers.View
 		public int PlayerSelectedWindowSize
 		{
 			get { return m_PlayerSelectedWindowSize; }
-			set { m_PlayerSelectedWindowSize = value; }
+			private set { m_PlayerSelectedWindowSize = value; }
 		}
 
 		private void checkBoxPlayerTwo_CheckedChanged(object i_Sender, EventArgs i_EventArgs)
@@ -109,6 +109,17 @@ namespace B18Ex05.Checkers.View
 		{
 			get { return textBoxPlayerTwoName.Text; }
 			set { textBoxPlayerTwoName.Text = value; }
+		}
+
+		private void gameSettings_FormClosed(object i_Sender, FormClosedEventArgs i_FormClosedEventArgs)
+		{
+			GameSettings settings = i_Sender as GameSettings;
+			if (settings.DialogResult == DialogResult.Cancel)
+			{
+				checkBoxPlayerTwo.Checked = false;
+				textBoxPlayerOneName.Text = "Player 1";
+				radioButton6X6.Checked = true;
+			}
 		}
 	}
 }

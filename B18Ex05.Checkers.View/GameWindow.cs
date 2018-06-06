@@ -57,23 +57,21 @@ namespace B18Ex05.Checkers.View
 		{
 			m_ComputerLastActions = new List<GameWindowButton>();
 			m_GameSettings = new GameSettings();
-			if (m_GameSettings.DialogResult == DialogResult.OK)
-			{
-				m_GameWindowSize = m_GameSettings.PlayerSelectedWindowSize;
-				m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
-				createButtonMatrix();
-				InitializeComponent();
-				ResetGame += resetComputerActions;
-				labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
-				labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
-				labelPlayerOneScore.Left = labelPlayerOneName.Right    + 5;
-				labelPlayerTwoScore.Left = labelPlayerTwoName.Right    + 5;
-			}
-			else
-			{
-				DialogResult = DialogResult.Cancel;
-				Close();
-			}
+
+			m_GameWindowSize = m_GameSettings.PlayerSelectedWindowSize;
+			m_PlayerTwoActive = m_GameSettings.IsPlayerTwoActive;
+			createButtonMatrix();
+			InitializeComponent();
+			nonDesignerInitializations();
+		}
+
+		private void nonDesignerInitializations()
+		{
+			ResetGame += resetComputerActions;
+			labelPlayerOneName.Text = m_GameSettings.PlayerOneName + ":";
+			labelPlayerTwoName.Text = m_GameSettings.PlayerTwoName + ":";
+			labelPlayerOneScore.Left = labelPlayerOneName.Right + 5;
+			labelPlayerTwoScore.Left = labelPlayerTwoName.Right + 5;
 		}
 
 		private void createButtonMatrix()
